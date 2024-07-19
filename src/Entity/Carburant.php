@@ -22,6 +22,9 @@ class Carburant
     #[ORM\Column(length: 255)]
     private ?string $motDePasse = null;
 
+    #[ORM\Column]
+    private ?bool $archive = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,28 @@ class Carburant
     public function setMotDePasse(string $motDePasse): static
     {
         $this->motDePasse = $motDePasse;
+
+        return $this;
+    }
+    public function verifierAlertes(): array
+    {
+        $alertes = [];
+
+        if ($this->valeur < 10) {
+            $alertes[] = "Alerte: Le niveau de carburant est bas.";
+        }
+
+        return $alertes;
+    }
+
+    public function isArchive(): ?bool
+    {
+        return $this->archive;
+    }
+
+    public function setArchive(bool $archive): static
+    {
+        $this->archive = $archive;
 
         return $this;
     }

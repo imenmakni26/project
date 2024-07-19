@@ -62,15 +62,14 @@ class CarburantController extends AbstractController
         return $this->json($carburant);
     }
 
-    /**
-     * @Route("/carburant/{id}", name="carburant_delete", methods={"DELETE"})
-     */
-    public function delete(Carburant $carburant): Response
-    {
-        $entityManager = $this->entityManager;
-        $entityManager->remove($carburant);
-        $entityManager->flush();
+    public function archive(Carburant $carburant): Response
+{
+    $entityManager = $this->entityManager;
+    $carburant->setArchive(true);
 
-        return new Response(null, Response::HTTP_NO_CONTENT);
-    }
+    $entityManager->persist($carburant);
+    $entityManager->flush();
+
+    return new Response(null, Response::HTTP_NO_CONTENT);
+}
 }

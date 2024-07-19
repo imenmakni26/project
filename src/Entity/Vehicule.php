@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use PhpParser\Node\Expr\List_;
+
 
 #[ORM\Entity(repositoryClass: VehiculeRepository::class)]
 class Vehicule
@@ -42,7 +42,7 @@ class Vehicule
     private ?string $couleur = null;
 
     #[ORM\Column]
-    private ?float $prix = null;
+    private ?float $prixVehicule = null;
 
     #[ORM\Column(length: 255)]
     private ?string $NumeroSerie = null;
@@ -56,9 +56,6 @@ class Vehicule
     #[ORM\Column]
     private ?float $dimensionRoue = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $entretient = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateDerniereVidange = null;
 
@@ -71,15 +68,28 @@ class Vehicule
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Budget $idBudget = null;
 
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $archived = false;
+
     /**
      * @var Collection<int, Historique>
      */
     #[ORM\OneToMany(targetEntity: Historique::class, mappedBy: 'vehicule')]
     private Collection $historiques;
 
+    #[ORM\ManyToOne(inversedBy: 'vehicules')]
+    private ?Entretient $Entretient = null;
+
+    /**
+     * @var Collection<int, Entretient>
+     */
+    #[ORM\ManyToMany(targetEntity: Entretient::class, inversedBy: 'idVehicule')]
+    private Collection $entretient;
+
     public function __construct()
     {
         $this->historiques = new ArrayCollection();
+        $this->entretient = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -192,12 +202,12 @@ class Vehicule
 
     public function getPrix(): ?float
     {
-        return $this->prix;
+        return $this->prixVehicule;
     }
 
     public function setPrix(float $prix): static
     {
-        $this->prix = $prix;
+        $this->prixVehicule = $prix;
 
         return $this;
     }
@@ -250,18 +260,6 @@ class Vehicule
         return $this;
     }
 
-    public function getEntretient(): ?string
-    {
-        return $this->entretient;
-    }
-
-    public function setEntretient(string $entretient): static
-    {
-        $this->entretient = $entretient;
-
-        return $this;
-    }
-
     public function getDateDerniereVidange(): ?\DateTimeInterface
     {
         return $this->dateDerniereVidange;
@@ -309,6 +307,33 @@ class Vehicule
         return $this;
     }
 
+    public function isArchived(): bool
+    {
+        return $this->archived;
+    }
+
+    public function setArchived(bool $archived): static
+    {
+        $this->archived = $archived;
+
+        return $this;
+    }
+    public function verifierAlertes(): array
+    {
+        $alertes = [];
+        $today = new \DateTime();
+
+        if ($this->kilometrage > 100000) {
+            $alertes[] = "Alerte: Le kilométrage dépasse 100 000 km.";
+        }
+
+        if ($this->dateDerniereVidange && $this->dateDerniereVidange < $today) {
+            $alertes[] = "Alerte: La date de la dernière vidange est dépassée.";
+        }
+
+        return $alertes;
+    }
+
     /**
      * @return Collection<int, Historique>
      */
@@ -335,6 +360,34 @@ class Vehicule
                 $historique->setVehicule(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEntretient(): ?Entretient
+    {
+        return $this->Entretient;
+    }
+
+    public function setEntretient(?Entretient $Entretient): static
+    {
+        $this->Entretient = $Entretient;
+
+        return $this;
+    }
+
+    public function addEntretient(Entretient $entretient): static
+    {
+        if (!$this->entretient->contains($entretient)) {
+            $this->entretient->add($entretient);
+        }
+
+        return $this;
+    }
+
+    public function removeEntretient(Entretient $entretient): static
+    {
+        $this->entretient->removeElement($entretient);
 
         return $this;
     }

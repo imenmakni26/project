@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AssuranceRepository;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,7 +12,7 @@ class Assurance
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -25,6 +26,12 @@ class Assurance
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
+
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $archive = false;
+
+    #[ORM\Column]
+    private ?float $prix = null; 
 
     public function getId(): ?int
     {
@@ -75,6 +82,45 @@ class Assurance
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
+        return $this;
+    }
+
+    public function isArchive(): ?bool
+    {
+        return $this->archive;
+    }
+
+    public function setArchive(?bool $archive): static
+    {
+        $this->archive = $archive;
+        return $this;
+ 
+    }
+    public function verifierAlertes(): array
+    {
+        $alertes = [];
+        if ($this->date) {
+            $today = new DateTime(); 
+            $interval = $today->diff($this->date);
+            $daysDifference = $interval->days;
+
+            if ($daysDifference <= 15) 
+            {
+                $alertes[] = "Alerte: L'assurance expire dans moins de 15 jours.";
+            }
+        }
+
+        return $alertes;
+    }
+
+    public function getPrix(): ?float
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(float $prix): static
+    {
+        $this->prix = $prix;
 
         return $this;
     }

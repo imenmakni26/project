@@ -3,11 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Vehicule;
+use App\Repository\VehiculeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 class VehiculeController extends AbstractController
 {
@@ -34,14 +35,14 @@ class VehiculeController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         $vehicule = new Vehicule();
-        $vehicule->setId($data['id'] ?? null);
+        // Set all properties
         $vehicule->setMarque($data['marque'] ?? null);
         $vehicule->setModele($data['modele'] ?? null);
         $vehicule->setAnnee($data['annee'] ?? null);
         $vehicule->setImmatriculation($data['immatriculation'] ?? null);
         $vehicule->setNumSerieCarburant($data['NumSerieCarburant'] ?? null);
         $vehicule->setEtat($data['etat'] ?? null);
-        $vehicule->setDescription ($data['description '] ?? null);
+        $vehicule->setDescription($data['description'] ?? null);
         $vehicule->setCouleur($data['couleur'] ?? null);
         $vehicule->setPrix($data['prix'] ?? null);
         $vehicule->setNumeroSerie($data['NumeroSerie'] ?? null);
@@ -54,9 +55,8 @@ class VehiculeController extends AbstractController
         $vehicule->setNumeroAssurance($data['NumeroAssurance'] ?? null);
         $vehicule->setIdBudget($data['idBudget'] ?? null);
 
-        $entityManager = $this->entityManager;
-        $entityManager->persist($vehicule);
-        $entityManager->flush();
+        $this->entityManager->persist($vehicule);
+        $this->entityManager->flush();
 
         return $this->json($vehicule);
     }
@@ -67,15 +67,15 @@ class VehiculeController extends AbstractController
     public function update(Request $request, Vehicule $vehicule): Response
     {
         $data = json_decode($request->getContent(), true);
-        
-        $vehicule->setId($data['id'] ?? $vehicule->getId());
+
+
         $vehicule->setMarque($data['marque'] ?? $vehicule->getMarque());
         $vehicule->setModele($data['modele'] ?? $vehicule->getModele());
         $vehicule->setAnnee($data['annee'] ?? $vehicule->getAnnee());
         $vehicule->setImmatriculation($data['immatriculation'] ?? $vehicule->getImmatriculation());
         $vehicule->setNumSerieCarburant($data['NumSerieCarburant'] ?? $vehicule->getNumSerieCarburant());
         $vehicule->setEtat($data['etat'] ?? $vehicule->getEtat());
-        $vehicule->setDescription ($data['description '] ?? $vehicule->getDescription());
+        $vehicule->setDescription($data['description'] ?? $vehicule->getDescription());
         $vehicule->setCouleur($data['couleur'] ?? $vehicule->getCouleur());
         $vehicule->setPrix($data['prix'] ?? $vehicule->getPrix());
         $vehicule->setNumeroSerie($data['NumeroSerie'] ?? $vehicule->getNumeroSerie());
@@ -88,21 +88,32 @@ class VehiculeController extends AbstractController
         $vehicule->setNumeroAssurance($data['NumeroAssurance'] ?? $vehicule->getNumeroAssurance());
         $vehicule->setIdBudget($data['idBudget'] ?? $vehicule->getIdBudget());
 
-        $entityManager = $this->entityManager;
-        $entityManager->flush();
+        $this->entityManager->flush();
 
         return $this->json($vehicule);
     }
 
     /**
-     * @Route("/vehicules/{id}", name="vehicule_delete", methods={"DELETE"})
+     * @Route("/vehicules/{id}/archive", name="vehicule_archive", methods={"PATCH"})
      */
-    public function delete(Vehicule $vehicule): Response
+    public function archive(Vehicule $vehicule): Response
     {
-        $entityManager = $this->entityManager;
-        $entityManager->remove($vehicule);
-        $entityManager->flush();
+        $vehicule->setArchived(true);
+
+        $this->entityManager->flush();
 
         return new Response(null, Response::HTTP_NO_CONTENT);
+    }
+    public function index(VehiculeRepository $vehiculeRepository): Response
+    {
+        $vehicules = $vehiculeRepository->findAll();
+        $alertes = [];
+
+        foreach ($vehicules as $vehicule) {
+            $alertes = array_merge($alertes, $vehicule->verifierAlertes());
+        }
+        return $this->render('vehicule/index.html.twig', [
+            'alertes' => $alertes,
+        ]);
     }
 }

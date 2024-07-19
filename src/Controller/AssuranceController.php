@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 class AssuranceController extends AbstractController
 {
@@ -65,13 +65,13 @@ class AssuranceController extends AbstractController
     }
 
     /**
-     * @Route("/assurance/{id}", name="assurance_delete", methods={"DELETE"})
+     * @Route("/assurance/archive/{id}", name="assurance_archive", methods={"POST"})
      */
-    public function delete(Assurance $assurance): Response
+    public function archive(Assurance $assurance): Response
     {
-        $entityManager = $this->entityManager;
-        $entityManager->remove($assurance);
-        $entityManager->flush();
+        $assurance->setArchive(true);
+        $this->entityManager->persist($assurance);
+        $this->entityManager->flush();
 
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
