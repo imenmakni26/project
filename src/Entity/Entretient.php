@@ -31,6 +31,9 @@ class Entretient
     #[ORM\ManyToMany(targetEntity: Vehicule::class, mappedBy: 'entretient')]
     private Collection $idVehicule;
 
+    #[ORM\Column]
+    private ?bool $archive = null;
+
     public function __construct()
     {
         $this->idVehicule = new ArrayCollection();
@@ -100,6 +103,18 @@ class Entretient
         if ($this->idVehicule->removeElement($idVehicule)) {
             $idVehicule->removeEntretient($this);
         }
+
+        return $this;
+    }
+
+    public function isArchive(): ?bool
+    {
+        return $this->archive;
+    }
+
+    public function setArchive(bool $archive): static
+    {
+        $this->archive = $archive;
 
         return $this;
     }

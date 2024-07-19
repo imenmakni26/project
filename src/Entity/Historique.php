@@ -26,6 +26,9 @@ class Historique
     #[ORM\ManyToOne(inversedBy: 'historiques')]
     private ?Vehicule $vehicule = null;
 
+    #[ORM\Column]
+    private ?bool $archive = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,18 @@ class Historique
     public function setVehicule(?Vehicule $vehicule): static
     {
         $this->vehicule = $vehicule;
+
+        return $this;
+    }
+
+    public function isArchive(): ?bool
+    {
+        return $this->archive;
+    }
+
+    public function setArchive(bool $archive): static
+    {
+        $this->archive = $archive;
 
         return $this;
     }

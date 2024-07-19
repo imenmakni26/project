@@ -42,7 +42,8 @@ class BudgetController extends AbstractController
         $budget = new budget();
         $budget->setId($data['Id'] ?? null);
         $budget->setMontantAlloue($data['MontantAlloue'] ?? null);
-        $budget->setdepense($data['depense'] ?? null);
+        $budget->setDepense($data['depense'] ?? null);
+        $budget->setArchive($data['archive'] ?? null);
 
         $entityManager = $this->entityManager;
         $entityManager->persist($budget);
@@ -60,11 +61,23 @@ class BudgetController extends AbstractController
 
         $budget->setId($data['Id'] ?? $budget->getId());
         $budget->setMontantAlloue($data['MontantAlloue'] ?? $budget->getMontantAlloue());
-        $budget->setdepense($data['depense'] ?? $budget->getdepense());
+        $budget->setdepense($data['depense'] ?? $budget->getDepense());
+        $budget->setArchive($data['archive'] ?? $budget->isArchive());
 
         $entityManager = $this->entityManager;
         $entityManager->flush();
 
         return $this->json($budget);
     }
+    public function archive(Budget $budget): Response
+    {
+        $entityManager = $this->entityManager;
+        $budget->setArchive(true);
+    
+        $entityManager->persist($budget);
+        $entityManager->flush();
+    
+        return new Response(null, Response::HTTP_NO_CONTENT);
+    }
+    
 }

@@ -86,6 +86,9 @@ class Vehicule
     #[ORM\ManyToMany(targetEntity: Entretient::class, inversedBy: 'idVehicule')]
     private Collection $entretient;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Departement $departement = null;
+
     public function __construct()
     {
         $this->historiques = new ArrayCollection();
@@ -388,6 +391,18 @@ class Vehicule
     public function removeEntretient(Entretient $entretient): static
     {
         $this->entretient->removeElement($entretient);
+
+        return $this;
+    }
+
+    public function getDepartement(): ?Departement
+    {
+        return $this->departement;
+    }
+
+    public function setDepartement(?Departement $departement): static
+    {
+        $this->departement = $departement;
 
         return $this;
     }

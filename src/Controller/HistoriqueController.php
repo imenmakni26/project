@@ -44,6 +44,7 @@ class HistoriqueController extends AbstractController
         $historique->setDescription($data['description'] ?? null);
         $historique->setCout($data['cout'] ?? null);
         $historique->setVehicule($data['vehicule'] ?? null);
+        $historique->setArchive($data['archive'] ?? null);
 
         $entityManager = $this->entityManager;
         $entityManager->persist($historique);
@@ -63,10 +64,21 @@ class HistoriqueController extends AbstractController
         $historique->setDescription($data['description'] ?? $historique->getDescription());
         $historique->setCout($data['cout'] ?? $historique->getCout());
         $historique->setVehicule($data['vehicule'] ?? $historique->getVehicule());
+        $historique->setArchive($data['archive'] ?? $historique->isArchive());
 
         $entityManager = $this->entityManager;
         $entityManager->flush();
 
         return $this->json($historique);
+    }
+    public function archive(Historique $historique): Response
+    {
+        $entityManager = $this->entityManager;
+        $historique->setArchive(true);
+    
+        $entityManager->persist($historique);
+        $entityManager->flush();
+    
+        return new Response(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -37,7 +37,8 @@ class CarburantController extends AbstractController
         $carburant->setnumserie($data['numserie'] ?? null);
         $carburant->setvaleur($data['valeur'] ?? null);
         $carburant->setmotDePasse($data['motDePasse'] ?? null);
-        
+        $carburant->setArchive($data['archive'] ?? null);       
+
         $entityManager = $this->entityManager;
         $entityManager->persist($carburant);
         $entityManager->flush();
@@ -55,7 +56,8 @@ class CarburantController extends AbstractController
         $carburant->setnumserie($data['numserie'] ?? $carburant->getnumserie());
         $carburant->setvaleur($data['valeur'] ?? $carburant->getvaleur());
         $carburant->setmotDePasse($data['motDePasse'] ?? $carburant->getmotDePasse());
-        
+        $carburant->setArchive($data['archive'] ?? $carburant->isArchive());
+
         $entityManager = $this->entityManager;
         $entityManager->flush();
 
@@ -63,13 +65,13 @@ class CarburantController extends AbstractController
     }
 
     public function archive(Carburant $carburant): Response
-{
-    $entityManager = $this->entityManager;
-    $carburant->setArchive(true);
+    {
+        $entityManager = $this->entityManager;
+        $carburant->setArchive(true);
 
-    $entityManager->persist($carburant);
-    $entityManager->flush();
+        $entityManager->persist($carburant);
+        $entityManager->flush();
 
-    return new Response(null, Response::HTTP_NO_CONTENT);
-}
+        return new Response(null, Response::HTTP_NO_CONTENT);
+    }
 }

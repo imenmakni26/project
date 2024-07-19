@@ -22,6 +22,9 @@ class Budget
     #[ORM\Column]
     private ?float $depense = null;
 
+    #[ORM\Column]
+    private ?bool $archive = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -80,5 +83,17 @@ class Budget
         {
             return ("Alerte: Les dépenses dépassent le montant alloué.");
         }
+    }
+
+    public function isArchive(): ?bool
+    {
+        return $this->archive;
+    }
+
+    public function setArchive(bool $archive): static
+    {
+        $this->archive = $archive;
+
+        return $this;
     }
 }

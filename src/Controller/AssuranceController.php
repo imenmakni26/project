@@ -38,6 +38,8 @@ class AssuranceController extends AbstractController
         $assurance->setType($data['Type'] ?? null);
         $assurance->setAgence($data['Agence'] ?? null);
         $assurance->setDate($data['Date'] ?? null);
+        $assurance->setArchive($data['archive'] ?? null);
+        $assurance->setPrix($data['prix'] ?? null);
 
         $entityManager = $this->entityManager;
         $entityManager->persist($assurance);
@@ -57,6 +59,8 @@ class AssuranceController extends AbstractController
         $assurance->setType($data['type'] ?? $assurance->getType());
         $assurance->setAgence($data['agence'] ?? $assurance->getAgence());
         $assurance->setDate($data['date'] ?? $assurance->getDate());
+        $assurance->setArchive($data['archive'] ?? $assurance->isArchive());
+        $assurance->setPrix($data['prix'] ?? $assurance->getPrix());
 
         $entityManager = $this->entityManager;
         $entityManager->flush();

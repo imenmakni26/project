@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Entretient;
-use App\Form\EntretientType;
+use App\Entity\Vehicule;
 use App\Repository\EntretientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +13,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EntretientController extends AbstractController
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
     #[Route('/entretient', name: 'entretient_index', methods: ['GET'])]
     public function index(EntretientRepository $entretientRepository): Response
     {
@@ -23,60 +29,85 @@ class EntretientController extends AbstractController
         ]);
     }
 
-    #[Route('/entretient/new', name: 'entretient_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $entretient = new Entretient();
-        $form = $this->createForm(Entretient::class, $entretient);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($entretient);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('entretient_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('entretient/new.html.twig', [
-            'entretient' => $entretient,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/entretient/{id}', name: 'entretient_show', methods: ['GET'])]
+/**
+     * @Route("/entretient/{id}", name="entretient_show", methods={"GET"})
+     */
     public function show(Entretient $entretient): Response
     {
-        return $this->render('entretient/show.html.twig', [
-            'entretient' => $entretient,
-        ]);
+        return $this->json($entretient);
     }
 
-    #[Route('/entretient/{id}/edit', name: 'entretient_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Entretient $entretient, EntityManagerInterface $entityManager): Response
+    /**
+     * @Route("/entretient", name="entretient_create", methods={"POST"})
+     */
+    public function create(Request $request): Response
     {
-        $form = $this->createForm(Entretient::class, $entretient);
-        $form->handleRequest($request);
+        $data = json_decode($request->getContent(), true);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+        $entretient = new Entretient();
+        $entretient->setDate(new \DateTime($data['date'] ?? 'now')); // Utilisation de la date actuelle si aucune date n'est fournie
+        $entretient->setType($data['type'] ?? null);
+        $entretient->setPrix($data['prix'] ?? null);
+        $entretient->setArchive($data['archive'] ?? false); // Valeur par défaut false
 
-            return $this->redirectToRoute('entretient_index', [], Response::HTTP_SEE_OTHER);
+        // Gestion des véhicules associés
+        if (isset($data['vehicules'])) {
+            foreach ($data['vehicules'] as $vehiculeId) {
+                $vehicule = $this->entityManager->getRepository(Vehicule::class)->find($vehiculeId);
+                if ($vehicule) {
+                    $entretient->addIdVehicule($vehicule);
+                }
+            }
         }
 
-        return $this->render('entretient/edit.html.twig', [
-            'entretient' => $entretient,
-            'form' => $form->createView(),
-        ]);
+        $entityManager = $this->entityManager;
+        $entityManager->persist($entretient);
+        $entityManager->flush();
+
+        return $this->json($entretient);
+    }
+
+    #[Route('/entretient/{id}', name: 'entretient_update', methods: ['PUT'])]
+    public function update(Request $request, Entretient $entretient): Response
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (isset($data['date'])) {
+            $entretient->setDate(new \DateTime($data['date']));
+        }
+        if (isset($data['type'])) {
+            $entretient->setType($data['type']);
+        }
+        if (isset($data['prix'])) {
+            $entretient->setPrix($data['prix']);
+        }
+
+        if (isset($data['vehicules'])) {
+            foreach ($entretient->getIdVehicule() as $vehicule) {
+                $entretient->removeIdVehicule($vehicule);
+            }
+            foreach ($data['vehicules'] as $vehiculeId) {
+                $vehicule = $this->entityManager->getRepository(Vehicule::class)->find($vehiculeId);
+                if ($vehicule) {
+                    $entretient->addIdVehicule($vehicule);
+                }
+            }
+        }
+
+        $this->entityManager->flush();
+
+        return $this->json($entretient);
     }
 
     #[Route('/entretient/{id}', name: 'entretient_delete', methods: ['POST'])]
-    public function delete(Request $request, Entretient $entretient, EntityManagerInterface $entityManager): Response
+    public function archive(Entretient $entretient): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$entretient->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($entretient);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('entretient_index', [], Response::HTTP_SEE_OTHER);
+        $entityManager = $this->entityManager;
+        $entretient->setArchive(true);
+    
+        $entityManager->persist($entretient);
+        $entityManager->flush();
+    
+        return new Response(null, Response::HTTP_NO_CONTENT);
     }
 }
