@@ -86,8 +86,17 @@ class Vehicule
     #[ORM\ManyToMany(targetEntity: Entretient::class, inversedBy: 'idVehicule')]
     private Collection $entretient;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'vehicules')]
     private ?Departement $departement = null;
+
+    #[ORM\ManyToOne(inversedBy: 'idVehicule')]
+    private ?Responsabledeflotte $responsabledeflotte = null;
+
+    #[ORM\ManyToOne(inversedBy: 'idVehicule')]
+    private ?DirecteurCommercial $directeurCommercial = null;
+
+    #[ORM\ManyToOne(inversedBy: 'idVehicule')]
+    private ?Directeur $directeur = null;
 
     public function __construct()
     {
@@ -403,6 +412,42 @@ class Vehicule
     public function setDepartement(?Departement $departement): static
     {
         $this->departement = $departement;
+
+        return $this;
+    }
+
+    public function getResponsabledeflotte(): ?Responsabledeflotte
+    {
+        return $this->responsabledeflotte;
+    }
+
+    public function setResponsabledeflotte(?Responsabledeflotte $responsabledeflotte): static
+    {
+        $this->responsabledeflotte = $responsabledeflotte;
+
+        return $this;
+    }
+
+    public function getDirecteurCommercial(): ?DirecteurCommercial
+    {
+        return $this->directeurCommercial;
+    }
+
+    public function setDirecteurCommercial(?DirecteurCommercial $directeurCommercial): static
+    {
+        $this->directeurCommercial = $directeurCommercial;
+
+        return $this;
+    }
+
+    public function getDirecteur(): ?Directeur
+    {
+        return $this->directeur;
+    }
+
+    public function setDirecteur(?Directeur $directeur): static
+    {
+        $this->directeur = $directeur;
 
         return $this;
     }
