@@ -30,7 +30,7 @@ class DirecteurCommercialRepository extends ServiceEntityRepository
         return new ArrayCollection($this->vehicules->slice(0, $limit));
     }
 
-    public function genererRapportsAnalyses(DirecteurCommercial $directeurCommercial): void
+    public function genererRapportsAnalyses(DirecteurCommercial $directeurCommercial): array
     {
         // Initialize an empty array to hold report data
         $rapports = [];
@@ -81,9 +81,10 @@ class DirecteurCommercialRepository extends ServiceEntityRepository
         // Log the generated report data
         $this->logger->info('Generated vehicle reports', ['rapports' => $rapports]);
 
-        // Alternatively, you can save the report data to a file or a database
-        // Example: saveReportToFile($reportData);
+        // Return the generated report data
+        return $rapports;
     }
+
 
     public function controlerEfficaciteGestion(DirecteurCommercial $directeurCommercial): void
     {

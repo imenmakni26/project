@@ -31,60 +31,65 @@ class DirecteurRepository extends ServiceEntityRepository
         return $this->vehicules;
     }
 
-    public function genererRapportsAnalyses(): void
-    {
-        // Initialize an empty array to hold report data
-        $rapports = [];
+    public function genererRapportsAnalyses(): array
+{
+    // Initialize an empty array to hold report data
+    $rapports = [];
 
-        // Loop through each vehicle managed by the directeur
-        foreach ($this->vehicules as $vehicule) {
-            // Fetch data related to the vehicle
-            $assurance = $vehicule->getAssurance();
-            $carburant = $vehicule->getCarburant();
-            $budget = $vehicule->getBudget();
-
-            // Analyze data and prepare a summary
-            $rapports[] = [
-                'id' => $vehicule->getId(),
-                'marque' => $vehicule->getMarque(),
-                'modele' => $vehicule->getModele(),
-                'annee' => $vehicule->getAnnee(),
-                'immatriculation' => $vehicule->getImmatriculation(),
-                'carburant' => [
-                    'numSerie' => $carburant->getNumSerie(),
-                    'valeur' => $carburant->getValeur(),
-                    'motDePasse' => $carburant->getMotDePasse(),
-                ],
-                'etat' => $vehicule->getEtat(),
-                'description' => $vehicule->getDescription(),
-                'couleur' => $vehicule->getCouleur(),
-                'prix' => $vehicule->getPrix(),
-                'numeroDeSerie' => $vehicule->getNumeroDeSerie(),
-                'kilometrage' => $vehicule->getKilometrage(),
-                'type' => $vehicule->getType(),
-                'dimensionRoue' => $vehicule->getDimensionRoue(),
-                'entretient' => $vehicule->getEntretient(),
-                'dateDerniereVidange' => $vehicule->getDateDerniereVidange(),
-                'cartePeage' => $vehicule->getCartePeage(),
-                'assurance' => [
-                    'numero' => $assurance->getNumero(),
-                    'type' => $assurance->getType(),
-                    'agence' => $assurance->getAgence(),
-                    'date' => $assurance->getDate(),
-                ],
-                'budget' => [
-                    'montantAlloue' => $budget->getMontantAlloue(),
-                    'depenses' => $budget->getDepenses(),
-                ]
-            ];
-        }
-
-        // Log the generated report data
-        $this->logger->info('Generated vehicle reports', ['rapports' => $rapports]);
-
-        // Alternatively, you can save the report data to a file or a database
-        // Example: saveReportToFile($reportData);
+    // Ensure $this->vehicules is defined and is an iterable
+    if (!isset($this->vehicules) || !is_iterable($this->vehicules)) {
+        throw new \RuntimeException('Véhicules data is not available or not iterable.');
     }
+
+    // Loop through each vehicle managed by the directeur
+    foreach ($this->vehicules as $vehicule) {
+        // Fetch data related to the vehicle
+        $assurance = $vehicule->getAssurance();
+        $carburant = $vehicule->getCarburant();
+        $budget = $vehicule->getBudget();
+
+        // Analyze data and prepare a summary
+        $rapports[] = [
+            'id' => $vehicule->getId(),
+            'marque' => $vehicule->getMarque(),
+            'modele' => $vehicule->getModele(),
+            'annee' => $vehicule->getAnnee(),
+            'immatriculation' => $vehicule->getImmatriculation(),
+            'carburant' => [
+                'numSerie' => $carburant->getNumSerie(),
+                'valeur' => $carburant->getValeur(),
+                'motDePasse' => $carburant->getMotDePasse(),
+            ],
+            'etat' => $vehicule->getEtat(),
+            'description' => $vehicule->getDescription(),
+            'couleur' => $vehicule->getCouleur(),
+            'prix' => $vehicule->getPrix(),
+            'numeroDeSerie' => $vehicule->getNumeroDeSerie(),
+            'kilometrage' => $vehicule->getKilometrage(),
+            'type' => $vehicule->getType(),
+            'dimensionRoue' => $vehicule->getDimensionRoue(),
+            'entretient' => $vehicule->getEntretient(),
+            'dateDerniereVidange' => $vehicule->getDateDerniereVidange(),
+            'cartePeage' => $vehicule->getCartePeage(),
+            'assurance' => [
+                'numero' => $assurance->getNumero(),
+                'type' => $assurance->getType(),
+                'agence' => $assurance->getAgence(),
+                'date' => $assurance->getDate(),
+            ],
+            'budget' => [
+                'montantAlloue' => $budget->getMontantAlloue(),
+                'depenses' => $budget->getDepenses(),
+            ]
+        ];
+    }
+
+    // Log the generated report data
+    $this->logger->info('Generated vehicle reports', ['rapports' => $rapports]);
+
+    // Return the report data
+    return $rapports;
+}
 
     public function controlerEfficaciteGestion(): void
     {
