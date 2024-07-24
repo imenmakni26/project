@@ -41,6 +41,17 @@ class DirecteurCommercialRepository extends ServiceEntityRepository
             $assurance = $vehicule->getAssurance();
             $carburant = $vehicule->getCarburant();
             $budget = $vehicule->getBudget();
+            $entretients = $vehicule->getEntretient();
+
+            $entretientData = [];
+            foreach ($entretients as $entretient) {
+                $entretientData[] = [
+                    'id' => $entretient->getId(),
+                    'date' => $entretient->getDate()->format('Y-m-d'),
+                    'type' => $entretient->getType(),
+                    'prix' => $entretient->getPrix(),
+                ];
+            }
 
             // Analyze data and prepare a summary
             $rapports[] = [
@@ -62,7 +73,7 @@ class DirecteurCommercialRepository extends ServiceEntityRepository
                 'kilometrage' => $vehicule->getKilometrage(),
                 'type' => $vehicule->getType(),
                 'dimensionRoue' => $vehicule->getDimensionRoue(),
-                'entretient' => $vehicule->getEntretient(),
+                'entretient' => $entretientData,
                 'dateDerniereVidange' => $vehicule->getDateDerniereVidange(),
                 'cartePeage' => $vehicule->getCartePeage(),
                 'assurance' => [
@@ -70,6 +81,7 @@ class DirecteurCommercialRepository extends ServiceEntityRepository
                     'type' => $assurance->getType(),
                     'agence' => $assurance->getAgence(),
                     'date' => $assurance->getDate(),
+                    'prix' => $assurance->getPrix(),
                 ],
                 'budget' => [
                     'montantAlloue' => $budget->getMontantAlloue(),
@@ -94,6 +106,7 @@ class DirecteurCommercialRepository extends ServiceEntityRepository
         // Initialize variables to track totals
         $totalCarburantCost = 0;
         $totalBudgetCost = 0;
+        $totalEntretientCost = 0;
         $totalVehicles = count($vehicules);
 
         // Process each vehicle
@@ -106,20 +119,28 @@ class DirecteurCommercialRepository extends ServiceEntityRepository
                 } elseif (strpos(strtolower($historique->getDescription()), 'budget') !== false) {
                     $totalBudgetCost += $historique->getCout();
                 }
+
+                $entretients = $vehicule->getEntretient(); // Assuming this returns a collection
+                foreach ($entretients as $entretient) {
+                    $totalEntretientCost += $entretient->getPrix();
+                }
             }
         }
 
         // Calculate average costs
         $averageCarburantCost = $totalVehicles ? $totalCarburantCost / $totalVehicles : 0;
         $averageBudgetCost = $totalVehicles ? $totalBudgetCost / $totalVehicles : 0;
+        $averageEntretientCost = $totalVehicles ? $totalEntretientCost / $totalVehicles : 0;
 
         // Log efficiency report
-        $this->logger->info("Rapport sur l'efficacité du parc:");
+        $this->logger->info("Rapport sur l'efficacité de le Parc:");
         $this->logger->info("Total des véhicules: $totalVehicles");
         $this->logger->info("Coût total du carburant: $totalCarburantCost");
-        $this->logger->info("Coût total du budget: $totalBudgetCost");
+        $this->logger->info("Coût total du Budget: $totalBudgetCost");
+        $this->logger->info("Coût total de l'entretien: $totalEntretientCost");
         $this->logger->info("Coût moyen du carburant par véhicule: $averageCarburantCost");
-        $this->logger->info("Coût moyen du budget par véhicule: $averageBudgetCost");
+        $this->logger->info("Coût moyen du Budget par véhicule: $averageBudgetCost");
+        $this->logger->info("Coût moyen de l'entretien par véhicule: $averageEntretientCost");
     }
 
 

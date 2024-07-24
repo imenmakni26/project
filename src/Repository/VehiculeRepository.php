@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Departement;
 use App\Entity\Vehicule;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,6 +15,16 @@ class VehiculeRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Vehicule::class);
+    }
+
+    public function findByDepartmentWithLimit(Departement $department, int $limit): array
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.department = :department')
+            ->setParameter('department', $department)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**

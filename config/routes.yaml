@@ -1,5 +1,129 @@
 controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+  resource:
+    path: ../src/Controller/
+    namespace: App\Controller
+  type: attribute
+
+budget:
+  path: /budget
+  controller: App\Controller\BudgetController::index
+  methods: [ANY]
+
+departement:
+  path: /departement
+  controller: App\Controller\DepartementController::index
+  methods: [ANY]
+
+directeur_commercial_vehicules:
+  path: /directeur-commercial/vehicules #The controller for URI "/directeur-commercial/vehicules" is not callable: Controller "App\Controller\DirecteurCommercialController" does neither exist as service nor as class.
+  controller: App\Controller\DirecteurCommercialController::viewLimitedVehicules
+  methods: [GET]
+
+directeur_commercial_rapport:
+  path: /directeur-commercial/rapport #The controller for URI "/directeur-commercial/vehicules" is not callable: Controller "App\Controller\DirecteurCommercialController" does neither exist as service nor as class.
+  controller: App\Controller\DirecteurCommercialController::generateReport
+  methods: [GET]
+
+directeur_commercial_evaluation:
+  path: /directeur-commercial/evaluation #The controller for URI "/directeur-commercial/vehicules" is not callable: Controller "App\Controller\DirecteurCommercialController" does neither exist as service nor as class.
+  controller: App\Controller\DirecteurCommercialController::evaluate
+  methods: [GET]
+
+directeur_vehicules:
+  path: /directeur/vehicules #The controller for URI "/directeur-commercial/vehicules" is not callable: Controller "App\Controller\DirecteurCommercialController" does neither exist as service nor as class.
+  controller: App\Controller\DirecteurController::manageVehicles
+  methods: [GET]
+
+directeur_rapports:
+  path: /directeur/rapports #The controller for URI "/directeur-commercial/vehicules" is not callable: Controller "App\Controller\DirecteurCommercialController" does neither exist as service nor as class.
+  controller: App\Controller\DirecteurController::generateReports
+  methods: [GET]
+
+directeur_efficacite:
+  path: /directeur/efficacite #The controller for URI "/directeur-commercial/vehicules" is not callable: Controller "App\Controller\DirecteurCommercialController" does neither exist as service nor as class.
+  controller: App\Controller\DirecteurController::controlEfficiency
+  methods: [GET]
+
+entretient_index:
+  path: /entretient #could not find driver
+  controller: App\Controller\EntretientController::index
+  methods: [GET]
+
+entretient_update:
+  path: /entretient/{id} #No route found No route found for "GET http://localhost:8000/entretient/%7Bid%7D": Method Not Allowed (Allow: PUT, POST)
+  controller: App\Controller\EntretientController::update
+  methods: [PUT]
+
+entretient_delete:
+  path: /entretient/{id} #No route found
+  controller: App\Controller\EntretientController::delete
+  methods: [POST]
+
+historique:
+  path: /historique
+  controller: App\Controller\HistoriqueController::index
+  methods: [ANY]
+
+vehicule_historique:
+  path: /vehicule/{id}/historique #No route found
+  controller: App\Controller\VehiculeController::historique
+  methods: [ANY]
+
+vehicule_budget:
+  path: /vehicule/{id}/budget #No route found
+  controller: App\Controller\VehiculeController::budget
+  methods: [ANY]
+
+home:
+  path: / #No route found
+  controller: App\Controller\HomeController::index
+  methods: [ANY]
+
+utilisateur_index:
+  path: /utilisateur/ #could not find driver
+  controller: App\Controller\UtilisateurController::index
+  methods: [GET]
+
+utilisateur_new:
+  path: /utilisateur/new #Can't get a way to read the property "telephone" in class "App\Entity\Utilisateur"
+  controller: App\Controller\UtilisateurController::new
+  methods: [GET, POST]
+
+utilisateur_show:
+  path: /utilisateur/{id} #could not find driver
+  controller: App\Controller\UtilisateurController::show
+  methods: [GET]
+
+utilisateur_edit:
+  path: /utilisateur/{id}/edit #could not find driver
+  controller: App\Controller\UtilisateurController::edit
+  methods: [GET, POST]
+
+utilisateur_delete:
+  path: /utilisateur/{id} #could not find driver
+  controller: App\Controller\UtilisateurController::delete
+  methods: [POST]
+#login:
+#path: /login
+#controller: App\Controller\SecurityController::login
+#methods: [GET, POST]
+
+assurance_show:
+  path: /assurance/{id}
+  controller: App\Controller\AssuranceController::show
+  methods: [GET]
+
+assurance_create:
+  path: /assurance
+  controller: App\Controller\AssuranceController::create
+  methods: [POST]
+
+assurance_update:
+  path: /assurance/{id}
+  controller: App\Controller\AssuranceController::update
+  methods: [PUT]
+
+assurance_archive:
+  path: /assurance/archive/{id}
+  controller: App\Controller\AssuranceController::archive
+  methods: [POST]

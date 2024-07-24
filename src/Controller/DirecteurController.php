@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Directeur;
 use App\Repository\DirecteurRepository;
+use App\Repository\VehiculeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -11,13 +12,26 @@ use Symfony\Component\Routing\Attribute\Route;
 class DirecteurController extends AbstractController
 {
     private $directeurRepository;
+    private $vehiculeRepository;
 
-    public function __construct(DirecteurRepository $directeurRepository)
+    public function __construct(DirecteurRepository $directeurRepository, VehiculeRepository $vehiculeRepository)
     {
         $this->directeurRepository = $directeurRepository;
+        $this->vehiculeRepository = $vehiculeRepository;
     }
 
-    #[Route('/directeur/rapports', name: 'directeur_rapports')]
+
+    #[Route('/directeur/vehicules', name: 'directeur_vehicules', methods: ['GET'])]
+    public function viewAllVehicules(): Response
+    {
+        $vehicules = $this->vehiculeRepository->findAll();
+
+        return $this->render('directeur/vehicules.html.twig', [
+            'vehicules' => $vehicules,
+        ]);
+    }
+
+    #[Route('/directeur/rapports', name: 'directeur_rapports', methods: ['GET'])]
     public function rapports(): Response
     {
         // Ensure the user is authenticated and has the correct role
@@ -33,7 +47,7 @@ class DirecteurController extends AbstractController
         ]);
     }
 
-    #[Route('/directeur/efficacite', name: 'directeur_efficacite')]
+    #[Route('/directeur/efficacite', name: 'directeur_efficacite', methods: ['GET'])]
     public function efficaciteGestion(DirecteurRepository $directeurRepository): Response
     {
         // Ensure the user is authenticated and has the correct role

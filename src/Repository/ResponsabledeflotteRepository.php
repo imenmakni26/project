@@ -45,8 +45,8 @@ class ResponsabledeflotteRepository extends ServiceEntityRepository
         $budget = $vehicle->getIdBudget();
 
         if ($budget !== null) {
-            $currentDepenses = $budget->getDepenses();
-            $budget->setDepenses($currentDepenses + $expense);
+            $currentDepenses = $budget->getDepense();
+            $budget->setDepense($currentDepenses + $expense);
 
             // Log the expense
             $this->logger->info("Expense of $expense applied to vehicle with ID {$vehicle->getId()}.");
