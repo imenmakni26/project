@@ -16,31 +16,27 @@
 			padding: 2px 6px;
 		}
 	</style>
-	<form class="form" method="POST" action="{{ path('assurance_create')}}" enctype="multipart/form-data">
-		Montant Alloue :<input type="text" name="montantAlloue" class="form-control form-control-solid" placeholder="Numero"/><br>
+	<form class="form" method="POST" action="{{ path('budget_create') }}" enctype="multipart/form-data">
+		<div>
+			<label for="montantAlloue">Montant Alloue:</label>
+			<input type="text" id="montantAlloue" name="montantAlloue" class="form-control form-control-solid" placeholder="Montant Alloué"/>
+		</div>
+		<br>
 
-		Depense :
-		<input type="" name="depense" class="form-control form-control-solid" placeholder=""/><br>
+		<div>
+			<label for="depense">Depense:</label>
+			<input type="text" id="depense" name="depense" class="form-control form-control-solid" placeholder="Dépense"/>
+		</div>
+		<br>
 
-		Archive :<input type="text" name="archive" class="form-control form-control-solid" placeholder="Agence"/><br>
+		<div>
+			<label for="archive">Archive:</label>
+			<input type="file" id="archive" name="archive" class="form-control form-control-solid" placeholder="Archive"/>
+		</div>
+		<br>
 
-		<button type="submit" data-kt-contacts-type="submit" class="btn btn-secondary btn-active-light w-200">
-			<span class="indicator-label">Ajouter
-			</span>
+		<button type="submit" class="btn btn-secondary btn-active-light w-200">
+			<span class="indicator-label">Ajouter</span>
 		</button>
 	</form>
-	<div class="example-wrapper">
-		<h1>Hello
-			{{ controller_name }}! ✅</h1>
-
-		This friendly message is coming from:
-		<ul>
-			<li>Your controller at
-				<code>C:/project/src/Controller/BudgetController.php</code>
-			</li>
-			<li>Your template at
-				<code>C:/project/templates/budget/index.html.twig</code>
-			</li>
-		</ul>
-	</div>
 {% endblock %}

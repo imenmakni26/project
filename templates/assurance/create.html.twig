@@ -26,32 +26,40 @@
 	<script src="public/Html/acorn-html-classic-dashboard/src/js/base/loader.js"></script>
 
 	<div class="example-wrapper">
-		<form class="form" method="POST" action="{{ path('assurance_create')}}" enctype="multipart/form-data">
-			Numero :<input type="text" name="numero" class="form-control form-control-solid" placeholder="Numero"/><br>
+		<form class="form" method="POST" action="{{ path('assurance_create') }}" enctype="multipart/form-data">
+			<div>
+				<label for="numero">Numero:</label>
+				<input type="text" id="numero" name="numero" class="form-control form-control-solid" placeholder="Numero"/>
+			</div>
+			<br>
 
-			Type :
-			<input type="" name="type" class="form-control form-control-solid" placeholder=""/><br>
+			<div>
+				<label for="type">Type:</label>
+				<input type="text" id="type" name="type" class="form-control form-control-solid" placeholder="Type"/>
+			</div>
+			<br>
 
-			Agence :<input type="text" name="agence" class="form-control form-control-solid" placeholder="Agence"/><br>
+			<div>
+				<label for="agence">Agence:</label>
+				<input type="text" id="agence" name="agence" class="form-control form-control-solid" placeholder="Agence"/>
+			</div>
+			<br>
 
-			date :<input type="text" name="date" class="form-control form-control-solid" placeholder="Date"/><br>
+			<div>
+				<label for="date">Date:</label>
+				<input type="date" id="date" name="date" class="form-control form-control-solid" placeholder="Date"/>
+			</div>
+			<br>
 
-			Archive :<input type="text" name="archive" class="form-control form-control-solid" placeholder="Archive"/><br>
-			<button type="submit" data-kt-contacts-type="submit" class="btn btn-secondary btn-active-light w-200">
-				<span class="indicator-label">Ajouter
-				</span>
+			<div>
+				<label for="archive">Archive:</label>
+				<input type="file" id="archive" name="archive" class="form-control form-control-solid" placeholder="Archive"/>
+			</div>
+			<br>
+
+			<button type="submit" class="btn btn-secondary btn-active-light w-200">
+				<span class="indicator-label">Ajouter</span>
 			</button>
-			<h1>Hello
-			</form>
-
-			This friendly message is coming from:
-			<ul>
-				<li>Your controller at
-					<code>C:/project/src/Controller/AssuranceController.php</code>
-				</li>
-				<li>Your template at
-					<code>C:/project/templates/assurance/index.html.twig</code>
-				</li>
-			</ul>
-		</div>
-	{% endblock %}
+		</form>
+	</div>
+{% endblock %}

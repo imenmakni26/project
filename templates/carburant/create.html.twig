@@ -16,33 +16,33 @@
 			padding: 2px 6px;
 		}
 	</style>
-	<form class="form" method="POST" action="{{ path('assurance_create')}}" enctype="multipart/form-data">
-		Numero de serie :<input type="text" name="numserie" class="form-control form-control-solid" placeholder="Numero"/><br>
+	<form class="form" method="POST" action="{{ path('carburant_create') }}" enctype="multipart/form-data">
+		<div>
+			<label for="montantAlloue">Numero de serie:</label>
+			<input type="text" id="montantAlloue" name="montantAlloue" class="form-control form-control-solid" placeholder="Montant Alloué"/>
+		</div>
+		<br>
 
-		Valeur :
-		<input type="" name="valeur" class="form-control form-control-solid" placeholder=""/><br>
+		<div>
+			<label for="depense">Valeur:</label>
+			<input type="text" id="depense" name="depense" class="form-control form-control-solid" placeholder="Dépense"/>
+		</div>
+		<br>
 
-		Mot de passe :<input type="text" name="motdepasse" class="form-control form-control-solid" placeholder="Agence"/><br>
+		<div>
+			<label for="depense">Mot de passe:</label>
+			<input type="text" id="depense" name="depense" class="form-control form-control-solid" placeholder="Dépense"/>
+		</div>
+		<br>
 
-		Archive :<input type="text" name="archive" class="form-control form-control-solid" placeholder="Agence"/><br>
+		<div>
+			<label for="archive">Archive:</label>
+			<input type="file" id="archive" name="archive" class="form-control form-control-solid" placeholder="Archive"/>
+		</div>
+		<br>
 
-		<button type="submit" data-kt-contacts-type="submit" class="btn btn-secondary btn-active-light w-200">
-			<span class="indicator-label">Ajouter
-			</span>
+		<button type="submit" class="btn btn-secondary btn-active-light w-200">
+			<span class="indicator-label">Ajouter</span>
 		</button>
 	</form>
-	<div class="example-wrapper">
-		<h1>Hello
-			{{ controller_name }}! ✅</h1>
-
-		This friendly message is coming from:
-		<ul>
-			<li>Your controller at
-				<code>C:/project/src/Controller/CarburantController.php</code>
-			</li>
-			<li>Your template at
-				<code>C:/project/templates/carburant/index.html.twig</code>
-			</li>
-		</ul>
-	</div>
 {% endblock %}
