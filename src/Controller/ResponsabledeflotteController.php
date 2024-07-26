@@ -19,7 +19,7 @@ class ResponsabledeflotteController extends AbstractController
         $this->responsabledeflotterepository = $responsabledeflotterepository;
     }
 
-    #[Route('/vehicule/{id}/historique', name: 'vehicule_historique')]
+    #[Route('/vehicule/historique', name: 'vehicule_historique')]
     public function suivreHistoriqueVehicule(Vehicule $vehicle): Response
     {
         $user = $this->getUser();
@@ -32,10 +32,11 @@ class ResponsabledeflotteController extends AbstractController
         return $this->render('vehicule/historique.html.twig', [
             'vehicle' => $vehicle,
             'history' => $history,
+            'controller_name' => 'ResponsabledeflotteController',
         ]);
     }
 
-    #[Route('/vehicule/{id}/budget', name: 'vehicule_budget')]
+    #[Route('/vehicule/budget', name: 'vehicule_budget')]
     public function gererBudgetVehicule(Request $request, Vehicule $vehicle): Response
     {
         $user = $this->getUser();

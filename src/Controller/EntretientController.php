@@ -26,19 +26,22 @@ class EntretientController extends AbstractController
 
         return $this->render('entretient/index.html.twig', [
             'entretients' => $entretients,
+            'controller_name' => 'entretientController',
         ]);
     }
 
-/**
-     * @Route("/entretient/{id}", name="entretient_show", methods={"GET"})
+    /**
+     * @Route("/entretient/show", name="entretient_show", methods={"GET"})
      */
     public function show(Entretient $entretient): Response
     {
-        return $this->json($entretient);
+        return $this->render('entretient/show.html.twig', [
+            'controller_name' => 'entretientController',
+        ]);
     }
 
     /**
-     * @Route("/entretient", name="entretient_create", methods={"POST"})
+     * @Route("/entretient/create", name="entretient_create", methods={"POST"})
      */
     public function create(Request $request): Response
     {
@@ -64,10 +67,12 @@ class EntretientController extends AbstractController
         $entityManager->persist($entretient);
         $entityManager->flush();
 
-        return $this->json($entretient);
+        return $this->render('entretient/create.html.twig', [
+            'controller_name' => 'entretientController',
+        ]);
     }
 
-    #[Route('/entretient/{id}', name: 'entretient_update', methods: ['PUT'])]
+    #[Route('/entretient/update', name: 'entretient_update', methods: ['PUT'])]
     public function update(Request $request, Entretient $entretient): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -96,18 +101,20 @@ class EntretientController extends AbstractController
 
         $this->entityManager->flush();
 
-        return $this->json($entretient);
+        return $this->render('entretient/update.html.twig', [
+            'controller_name' => 'entretientController',
+        ]);
     }
 
-    #[Route('/entretient/{id}', name: 'entretient_delete', methods: ['POST'])]
+    #[Route('/entretient/delete/{id}', name: 'entretient_delete', methods: ['POST'])]
     public function archive(Entretient $entretient): Response
     {
         $entityManager = $this->entityManager;
         $entretient->setArchive(true);
-    
+
         $entityManager->persist($entretient);
         $entityManager->flush();
-    
+
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
 }

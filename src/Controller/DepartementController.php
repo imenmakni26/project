@@ -31,7 +31,9 @@ class DepartementController extends AbstractController
      */
     public function show(Departement $departement): Response
     {
-        return $this->json($departement);
+        return $this->render('departement/show.html.twig', [
+            'controller_name' => 'DepartementController',
+        ]);
     }
 
     /**
@@ -43,13 +45,15 @@ class DepartementController extends AbstractController
 
         $departement = new Departement();
         $departement->setNom($data['nom'] ?? null);
-        $departement->setArchive($data['archive'] ?? null);       
+        $departement->setArchive($data['archive'] ?? null);
 
         $entityManager = $this->entityManager;
         $entityManager->persist($departement);
         $entityManager->flush();
 
-        return $this->json($departement);
+        return $this->render('departement/create.html.twig', [
+            'controller_name' => 'DepartementController',
+        ]);
     }
 
     /**
@@ -65,7 +69,9 @@ class DepartementController extends AbstractController
         $entityManager = $this->entityManager;
         $entityManager->flush();
 
-        return $this->json($departement);
+        return $this->render('departement/update.html.twig', [
+            'controller_name' => 'DepartementController',
+        ]);
     }
 
     public function archive(Departement $departement): Response
@@ -78,5 +84,4 @@ class DepartementController extends AbstractController
 
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
-
 }

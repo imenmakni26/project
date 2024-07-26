@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AssuranceController!
+{% endblock %}
+
+{% block body %}
+	<link rel="stylesheet" href="public/Html/acorn-html-classic-dashboard/src/font/CS-Interface/style.css"/>
+	<!-- Font Tags End -->
+	<!-- Vendor Styles Start -->
+	<link rel="stylesheet" href="public/Html/acorn-html-classic-dashboard/src/css/vendor/bootstrap.min.css"/> <link rel="stylesheet" href="css/vendor/OverlayScrollbars.min.css"/>
+
+	<link rel="stylesheet" href="public/Html/acorn-html-classic-dashboard/src/css/vendor/select2.min.css"/>
+
+	<link rel="stylesheet" href="public/Html/acorn-html-classic-dashboard/src/css/vendor/select2-bootstrap4.min.css"/>
+
+	<link rel="stylesheet" href="public/Html/acorn-html-classic-dashboard/src/css/vendor/fullcalendar.min.css"/>
+
+	<link rel="stylesheet" href="public/Html/acorn-html-classic-dashboard/src/css/vendor/bootstrap-datepicker3.standalone.min.css"/>
+
+	<!-- Vendor Styles End -->
+	<!-- Template Base Styles Start -->
+	<link
+	rel="stylesheet" href="public/Html/acorn-html-classic-dashboard/src/css/styles.css"/> <!-- Template Base Styles End -->
+
+	<link rel="stylesheet" href="public/Html/acorn-html-classic-dashboard/src/css/main.css"/>
+	<script src="public/Html/acorn-html-classic-dashboard/src/js/base/loader.js"></script>
+
+	<div class="example-wrapper">
+		<form class="form" method="POST" action="{{ path('assurance_create')}}" enctype="multipart/form-data">
+			Numero :<input type="text" name="numero" class="form-control form-control-solid" placeholder="Numero"/><br>
+
+			Type :
+			<input type="" name="type" class="form-control form-control-solid" placeholder=""/><br>
+
+			Agence :<input type="text" name="agence" class="form-control form-control-solid" placeholder="Agence"/><br>
+
+			date :<input type="text" name="date" class="form-control form-control-solid" placeholder="Date"/><br>
+
+			Archive :<input type="text" name="archive" class="form-control form-control-solid" placeholder="Archive"/><br>
+			<button type="submit" data-kt-contacts-type="submit" class="btn btn-secondary btn-active-light w-200">
+				<span class="indicator-label">Ajouter
+				</span>
+			</button>
+			<h1>Hello
+			</form>
+
+			This friendly message is coming from:
+			<ul>
+				<li>Your controller at
+					<code>C:/project/src/Controller/AssuranceController.php</code>
+				</li>
+				<li>Your template at
+					<code>C:/project/templates/assurance/index.html.twig</code>
+				</li>
+			</ul>
+		</div>
+	{% endblock %}

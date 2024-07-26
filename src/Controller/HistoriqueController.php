@@ -26,14 +26,16 @@ class HistoriqueController extends AbstractController
         ]);
     }
     /**
-     * @Route("/{id}", name="historique_show", methods={"GET"})
+     * @Route("/show", name="historique_show", methods={"GET"})
      */
     public function show(Historique $historique): Response
     {
-        return $this->json($historique);
+        return $this->render('historique/show.html.twig', [
+            'controller_name' => 'historiqueController',
+        ]);
     }
     /**
-     * @Route("/", name="historique_create", methods={"POST"})
+     * @Route("/create", name="historique_create", methods={"POST"})
      */
     public function create(Request $request): Response
     {
@@ -50,11 +52,13 @@ class HistoriqueController extends AbstractController
         $entityManager->persist($historique);
         $entityManager->flush();
 
-        return $this->json($historique);
+        return $this->render('historique/create.html.twig', [
+            'controller_name' => 'historiqueController',
+        ]);
     }
 
     /**
-     * @Route("/{id}", name="historique_update", methods={"PUT"})
+     * @Route("/update", name="historique_update", methods={"PUT"})
      */
     public function update(Request $request, Historique $historique): Response
     {
@@ -69,16 +73,18 @@ class HistoriqueController extends AbstractController
         $entityManager = $this->entityManager;
         $entityManager->flush();
 
-        return $this->json($historique);
+        return $this->render('historique/update.html.twig', [
+            'controller_name' => 'historiqueController',
+        ]);
     }
     public function archive(Historique $historique): Response
     {
         $entityManager = $this->entityManager;
         $historique->setArchive(true);
-    
+
         $entityManager->persist($historique);
         $entityManager->flush();
-    
+
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
 }

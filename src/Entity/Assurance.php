@@ -15,8 +15,9 @@ class Assurance
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $numero = null;
+    #[ORM\Column(length: 255, nullable: true)]
+private ?string $numero = null;
+
 
     #[ORM\Column(length: 255)]
     private ?string $type = null;
@@ -30,8 +31,8 @@ class Assurance
     #[ORM\Column(type: Types::BOOLEAN)]
     private ?bool $archive = false;
 
-    #[ORM\Column]
-    private ?float $prix = null; 
+    #[ORM\Column(type: 'float')]
+    private ?float $prix = null;
 
     public function getId(): ?int
     {

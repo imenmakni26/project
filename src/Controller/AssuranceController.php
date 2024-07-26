@@ -27,26 +27,38 @@ class AssuranceController extends AbstractController
     }
 
     /**
-     * @Route("/assurance", name="assurance_create", methods={"POST"})
+     * @Route("/assurance", name="assurance_create")
      */
-    public function create(Request $request): Response
+    public function create(Request $request,EntityManagerInterface $entityManager): Response
     {
+        if($request->isMethod('POST')){
+            
         $data = json_decode($request->getContent(), true);
+        $numero= $request->get('numero');
+        $type= $request->get('type');
+        $agence= $request->get('agence');
+        $date = $request->get('date');
+        $archive= $request->get('archive');
 
         $assurance = new Assurance();
-        $assurance->setNumero($data['Numero'] ?? null);
-        $assurance->setType($data['Type'] ?? null);
-        $assurance->setAgence($data['Agence'] ?? null);
-        $assurance->setDate($data['Date'] ?? null);
-        $assurance->setArchive($data['archive'] ?? null);
-        $assurance->setPrix($data['prix'] ?? null);
-
+        $assurance->setNumero($numero);
+        $assurance->setType($type);
+        $assurance->setAgence($agence);
+        $assurance->setDate($date);
+        $assurance->setArchive($archive);
+        
         $entityManager = $this->entityManager;
         $entityManager->persist($assurance);
         $entityManager->flush();
+        return new Response('Assurance créée avec succès');
 
-        return $this->json($assurance);
+        }
+        return $this->render('assurance/index.html.twig', [
+        'assurance' => '$assurance',
+        ]);
     }
+    
+    
 
     /**
      * @Route("/assurance/{id}", name="assurance_update", methods={"PUT"})

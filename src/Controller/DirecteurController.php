@@ -28,6 +28,7 @@ class DirecteurController extends AbstractController
 
         return $this->render('directeur/vehicules.html.twig', [
             'vehicules' => $vehicules,
+            'controller_name' => 'DirecteurController',
         ]);
     }
 
@@ -44,6 +45,7 @@ class DirecteurController extends AbstractController
 
         return $this->render('directeur/rapports.html.twig', [
             'rapports' => $rapports,
+            'controller_name' => 'DirecteurController',
         ]);
     }
 
@@ -60,6 +62,8 @@ class DirecteurController extends AbstractController
         $directeurRepository->controlerEfficaciteGestion();
 
         // Render the view
-        return $this->render('directeur/efficacite.html.twig');
+        return $this->render('directeur/efficacite.html.twig', [
+            'controller_name' => 'DirecteurController',
+        ]);
     }
 }

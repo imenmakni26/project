@@ -9,7 +9,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    /*#[Route('', name: '')]
+    /*#[Route('/security/login', name: '')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // If the user is already logged in, redirect them to another page
@@ -26,6 +26,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
+            'controller_name' => 'securityController',
         ]);
     }
 

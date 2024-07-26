@@ -19,15 +19,17 @@ class CarburantController extends AbstractController
     }
 
     /**
-     * @Route("/carburant/{id}", name="carburant_show", methods={"GET"})
+     * @Route("/carburant/show", name="carburant_show", methods={"GET"})
      */
     public function show(Carburant $carburant): Response
     {
-        return $this->json($carburant);
+        return $this->render('carburant/show.html.twig', [
+            'controller_name' => 'carburantController',
+        ]);
     }
 
     /**
-     * @Route("/carburant", name="carburant_create", methods={"POST"})
+     * @Route("/carburant/create", name="carburant_create", methods={"POST"})
      */
     public function create(Request $request): Response
     {
@@ -37,17 +39,19 @@ class CarburantController extends AbstractController
         $carburant->setnumserie($data['numserie'] ?? null);
         $carburant->setvaleur($data['valeur'] ?? null);
         $carburant->setmotDePasse($data['motDePasse'] ?? null);
-        $carburant->setArchive($data['archive'] ?? null);       
+        $carburant->setArchive($data['archive'] ?? null);
 
         $entityManager = $this->entityManager;
         $entityManager->persist($carburant);
         $entityManager->flush();
 
-        return $this->json($carburant);
+        return $this->render('carburant/create.html.twig', [
+            'controller_name' => 'carburantController',
+        ]);
     }
 
     /**
-     * @Route("/carburant/{id}", name="carburant_update", methods={"PUT"})
+     * @Route("/carburant/update", name="carburant_update", methods={"PUT"})
      */
     public function update(Request $request, Carburant $carburant): Response
     {
@@ -61,7 +65,9 @@ class CarburantController extends AbstractController
         $entityManager = $this->entityManager;
         $entityManager->flush();
 
-        return $this->json($carburant);
+        return $this->render('carburant/update.html.twig', [
+            'controller_name' => 'carburantController',
+        ]);
     }
 
     public function archive(Carburant $carburant): Response

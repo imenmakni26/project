@@ -26,14 +26,16 @@ class BudgetController extends AbstractController
         ]);
     }
     /**
-     * @Route("/{id}", name="budget_show", methods={"GET"})
+     * @Route("/show", name="budget_show", methods={"GET"})
      */
     public function show(Budget $budget): Response
     {
-        return $this->json($budget);
+        return $this->render('budget/show.html.twig', [
+            'controller_name' => 'BudgetController',
+        ]);
     }
     /**
-     * @Route("/", name="budget_create", methods={"POST"})
+     * @Route("/create", name="budget_create", methods={"POST"})
      */
     public function create(Request $request): Response
     {
@@ -49,11 +51,13 @@ class BudgetController extends AbstractController
         $entityManager->persist($budget);
         $entityManager->flush();
 
-        return $this->json($budget);
+        return $this->render('budget/create.html.twig', [
+            'controller_name' => 'BudgetController',
+        ]);
     }
 
     /**
-     * @Route("/{id}", name="budget_update", methods={"PUT"})
+     * @Route("/update", name="budget_update", methods={"PUT"})
      */
     public function update(Request $request, Budget $budget): Response
     {
@@ -67,17 +71,19 @@ class BudgetController extends AbstractController
         $entityManager = $this->entityManager;
         $entityManager->flush();
 
-        return $this->json($budget);
+        return $this->render('budget/update.html.twig', [
+            'controller_name' => 'BudgetController',
+        ]);
     }
+
     public function archive(Budget $budget): Response
     {
         $entityManager = $this->entityManager;
         $budget->setArchive(true);
-    
+
         $entityManager->persist($budget);
         $entityManager->flush();
-    
+
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
-    
 }
