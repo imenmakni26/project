@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Creation d'historique
+{% block title %}L'archive dess historiques
 {% endblock %}
 {% block body %}
 	<meta
@@ -224,10 +224,10 @@
 		</div>
 		<main>
 			<div class="container">
-				<h2 class="small-title">Creation d'historique</h2>
+				<h2 class="small-title">Modifier l'historique</h2>
 				<div class="card mb-5">
 					<div class="card-body">
-						<form class="form" method="POST" action="{{ path('historique_create') }}" enctype="multipart/form-data">
+						<form class="form" method="POST" action="{{ path('historique_update') }}" enctype="multipart/form-data">
 							<div class="mb-3 row">
 								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Date:</label>
 								<div class="col-sm-8 col-md-9 col-lg-10">
@@ -267,10 +267,11 @@
 
 							<div class="mb-3 row mt-5">
 								<div class="col-sm-8 col-md-9 col-lg-10 ms-auto">
-									<button type="submit" class="btn btn-outline-primary">Ajouter</button>
+									<button type="submit" class="btn btn-outline-primary">Sauvegarder les modifications</button>
 								</div>
 							</div>
 						</form>
+						<a href="{{ path('Historique_index') }}" class="btn btn-outline-primary">Retour à la liste</a>
 					</div>
 				</div>
 			</div>

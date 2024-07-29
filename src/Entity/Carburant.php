@@ -35,7 +35,7 @@ class Carburant
         return $this->numserie;
     }
 
-    public function setNumserie(string $numserie): static
+    public function setNumserie(string $numserie): self
     {
         $this->numserie = $numserie;
 

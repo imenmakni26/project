@@ -77,6 +77,10 @@ class HistoriqueController extends AbstractController
             'controller_name' => 'historiqueController',
         ]);
     }
+
+    /**
+     * @Route("historique/archive/{id}", name="historique_archive")
+     */
     public function archive(Historique $historique): Response
     {
         $entityManager = $this->entityManager;

@@ -17,13 +17,27 @@ class AssuranceController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
-
-    /**
-     * @Route("/assurance/{id}", name="assurance_show", methods={"GET"})
-     */
-    public function show(Assurance $assurance): Response
+    #[Route('/assurance', name: 'assurance_index')]
+    public function index(): Response
     {
-        return $this->json($assurance);
+        return $this->render('assurance/index.html.twig', [
+            'controller_name' => 'AssuranceController',
+        ]);
+    }
+    /**
+     * @Route("/assurance/{id}", name="assurance_show", requirements={"id"="\d+"})
+     */
+    public function show(int $id): Response
+    {
+        $assurance = $this->entityManager->getRepository(Assurance::class)->find($id);
+
+        if (!$assurance) {
+            throw $this->createNotFoundException('Aucune assurance trouvée pour cet ID');
+        }
+
+        return $this->render('assurance/show.html.twig', [
+            'assurance' => $assurance,
+        ]);
     }
 
     /**
@@ -53,35 +67,72 @@ class AssuranceController extends AbstractController
         return new Response('Assurance créée avec succès');
 
         }
-        return $this->render('assurance/index.html.twig', [
-        'assurance' => '$assurance',
+        return $this->render('assurance/create.html.twig', [
+            'controller_name' => 'AssuranceController',
         ]);
     }
     
     
 
     /**
-     * @Route("/assurance/{id}", name="assurance_update", methods={"PUT"})
+     * @Route("/assurance/{id}", name="assurance_update", methods={"GET"})
      */
     public function update(Request $request, Assurance $assurance): Response
     {
         $data = json_decode($request->getContent(), true);
+        $numero = $request->request->get('numero');
+        $type = $request->request->get('type');
+        $agence = $request->request->get('agence');
+        $date = $request->request->get('date');
+        $archive = $request->request->get('archive');
+        $prix = $request->request->get('prix');
 
-        $assurance->setNumero($data['numero'] ?? $assurance->getNumero());
-        $assurance->setType($data['type'] ?? $assurance->getType());
-        $assurance->setAgence($data['agence'] ?? $assurance->getAgence());
-        $assurance->setDate($data['date'] ?? $assurance->getDate());
-        $assurance->setArchive($data['archive'] ?? $assurance->isArchive());
-        $assurance->setPrix($data['prix'] ?? $assurance->getPrix());
+        if ($numero !== null && is_string($numero)) {
+            $assurance->setNumero($numero);
+        } else {
+            $assurance->setNumero('default_value'); 
+        }
+
+        if ($type !== null && is_string($type)) {
+            $assurance->setType($type);
+        } else {
+            $assurance->setType('default_value'); 
+        }
+        
+        if ($agence !== null && is_string($agence)) {
+            $assurance->setAgence($agence);
+        } else {
+            $assurance->setAgence('default_value'); 
+        }
+
+        if ($date !== null && strtotime($date) !== false) {
+            $assurance->setDate(new \DateTime($date));
+        } else {
+            $assurance->setDate(new \DateTime('now')); 
+        }
+
+        if ($archive !== null && in_array($archive, ['1', '0', 'true', 'false', true, false], true)) {
+            $assurance->setArchive(filter_var($archive, FILTER_VALIDATE_BOOLEAN));
+        } else {
+            $assurance->setArchive(false); 
+        }
+
+        if ($prix !== null && is_numeric($prix)) {
+            $assurance->setPrix((float)$prix);
+        } else {
+            $assurance->setPrix(0.0); 
+        }
 
         $entityManager = $this->entityManager;
         $entityManager->flush();
 
-        return $this->json($assurance);
+        return $this->render('assurance/update.html.twig', [
+            'controller_name' => 'AssuranceController',
+        ]);
     }
 
     /**
-     * @Route("/assurance/archive/{id}", name="assurance_archive", methods={"POST"})
+     * @Route("/assurance/archive/{id}", name="assurance_archive")
      */
     public function archive(Assurance $assurance): Response
     {

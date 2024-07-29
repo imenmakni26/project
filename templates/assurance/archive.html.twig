@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Creation d'historique
+{% block title %}L'archive d'assurance
 {% endblock %}
 {% block body %}
 	<meta
-	name="description" content="Medical Assistant"/>
+	name="description" content="Archive des assurances"/>
 	<!-- Favicon Tags Start -->
 	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="img/favicon/apple-touch-icon-57x57.png"/>
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png"/>
@@ -50,10 +50,7 @@
 				<!-- Logo Start -->
 				<div class="logo position-relative">
 					<a href="Dashboards.Patient.html">
-						<!-- Logo can be added directly -->
-						<!-- <img src="img/logo/logo-white.svg" alt="logo" /> -->
-
-						<!-- Or added via css to provide different ones for different color themes --><div class="img"> </div>
+						<div class="img"></div>
 					</a>
 				</div>
 				<!-- Logo End -->
@@ -224,33 +221,33 @@
 		</div>
 		<main>
 			<div class="container">
-				<h2 class="small-title">Creation d'historique</h2>
+				<h2 class="small-title">Modifier l'Assurance</h2>
 				<div class="card mb-5">
 					<div class="card-body">
-						<form class="form" method="POST" action="{{ path('historique_create') }}" enctype="multipart/form-data">
+						<form class="form" method="POST" action="{{ path('assurance_update') }}" enctype="multipart/form-data">
 							<div class="mb-3 row">
-								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Date:</label>
+								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Numéro:</label>
 								<div class="col-sm-8 col-md-9 col-lg-10">
-									<input type="date" class="form-control date-picker-close" value="Date"/>
+									<input type="text" class="form-control" value="Numero"/>
 								</div>
 							</div>
 							<div class="mb-3 row">
 								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">
-									Description:</label>
+									Type:</label>
 								<div class="col-sm-8 col-md-9 col-lg-10">
-									<input type="text" class="form-control" value="Description"/>
+									<input type="text" class="form-control" value="Type"/>
 								</div>
 							</div>
 							<div class="mb-3 row">
-								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Cout:</label>
+								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Agence:</label>
 								<div class="col-sm-8 col-md-9 col-lg-10">
-									<input type="text" class="form-control" value="Cout"/>
+									<input type="text" class="form-control" value="Agence"/>
 								</div>
 							</div>
 							<div class="mb-3 row">
-								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">IdVehicule:</label>
+								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Date:</label>
 								<div class="col-sm-8 col-md-9 col-lg-10">
-									<input type="text" class="form-control" value="IdVehicule"/>
+									<input type="date" class="form-control date-picker-close"/>
 								</div>
 							</div>
 
@@ -267,10 +264,12 @@
 
 							<div class="mb-3 row mt-5">
 								<div class="col-sm-8 col-md-9 col-lg-10 ms-auto">
-									<button type="submit" class="btn btn-outline-primary">Ajouter</button>
+									<button type="submit" class="btn btn-outline-primary">Sauvegarder les modifications</button>
 								</div>
 							</div>
 						</form>
+						<a href="{{ path('assurance_index') }}" class="btn btn-outline-primary">Retour à la liste</a>
+
 					</div>
 				</div>
 			</div>

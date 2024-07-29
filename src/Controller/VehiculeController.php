@@ -150,7 +150,7 @@ class VehiculeController extends AbstractController
     }
 
     /**
-     * @Route("/vehicules/{id}/archive", name="vehicule_archive", methods={"PATCH"})
+     * @Route("/vehicules/archive/{id}", name="vehicule_archive", methods={"PATCH"})
      */
     public function archive(Vehicule $vehicule): Response
     {

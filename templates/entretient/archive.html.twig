@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Creation d'historique
+{% block title %}L'archive des entretients
 {% endblock %}
 {% block body %}
 	<meta
-	name="description" content="Medical Assistant"/>
+	name="description" content="Entretient"/>
 	<!-- Favicon Tags Start -->
 	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="img/favicon/apple-touch-icon-57x57.png"/>
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png"/>
@@ -224,10 +224,10 @@
 		</div>
 		<main>
 			<div class="container">
-				<h2 class="small-title">Creation d'historique</h2>
+				<h2 class="small-title">>Modifier l'Entretient</h2>
 				<div class="card mb-5">
 					<div class="card-body">
-						<form class="form" method="POST" action="{{ path('historique_create') }}" enctype="multipart/form-data">
+						<form class="form" method="POST" action="{{ path('entretient_update') }}" enctype="multipart/form-data">
 							<div class="mb-3 row">
 								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Date:</label>
 								<div class="col-sm-8 col-md-9 col-lg-10">
@@ -236,15 +236,15 @@
 							</div>
 							<div class="mb-3 row">
 								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">
-									Description:</label>
+									Type:</label>
 								<div class="col-sm-8 col-md-9 col-lg-10">
-									<input type="text" class="form-control" value="Description"/>
+									<input type="text" class="form-control" value="Type"/>
 								</div>
 							</div>
 							<div class="mb-3 row">
-								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Cout:</label>
+								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Prix:</label>
 								<div class="col-sm-8 col-md-9 col-lg-10">
-									<input type="text" class="form-control" value="Cout"/>
+									<input type="text" class="form-control" value="Prix"/>
 								</div>
 							</div>
 							<div class="mb-3 row">
@@ -267,10 +267,11 @@
 
 							<div class="mb-3 row mt-5">
 								<div class="col-sm-8 col-md-9 col-lg-10 ms-auto">
-									<button type="submit" class="btn btn-outline-primary">Ajouter</button>
+									<button type="submit" class="btn btn-outline-primary">Sauvegarder les modifications</button>
 								</div>
 							</div>
 						</form>
+						<a href="{{ path('Entretient_index') }}" class="btn btn-outline-primary">Retour à la liste</a>
 					</div>
 				</div>
 			</div>

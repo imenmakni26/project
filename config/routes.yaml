@@ -4,33 +4,47 @@ controllers:
     namespace: App\Controller
   type: attribute
 
+assurance_index:
+  path: /assurance
+  controller: App\Controller\AssuranceController::index
+
 assurance_show:
-  path: /assurance/show
+  path: /assurance/{id}
   controller: App\Controller\AssuranceController::show
+  requirements:
+    id: \d+
 
 assurance_create:
   path: /assurance/create
   controller: App\Controller\AssuranceController::create
 
 assurance_update:
-  path: /assurance/update
-  controller: App\Controller\AssuranceController::update
+  path: /assurance/{id}
+  controller: App\Controller\AssuranceController::update  
 
-budget:
+assurance_archive:
+  path: /assurance/archive/{id}
+  controller: App\Controller\AssuranceController::archive 
+
+budget_index:
   path: /budget
   controller: App\Controller\BudgetController::index
 
 budget_show:
-  path: /budget/show
-  controller: App\Controller\BudgetController::show
+  path: /budget/{id}
+  controller: App\Controller\BudgetController::show 
 
 budget_create:
-  path: /budget/create
-  controller: App\Controller\BudgetController::create
-
+    path: /budget/create
+    controller: App\Controller\BudgetController::create
+    
 budget_update:
   path: /budget/update
-  controller: App\Controller\BudgetController::update
+  controller: App\Controller\BudgetController::update 
+
+budget_archive:
+  path: /budget/archive/{id}
+  controller: App\Controller\BudgetController::archive
 
 carburant_show:
   path: /carburant/show
@@ -43,6 +57,10 @@ carburant_create:
 carburant_update:
   path: /carburant/update
   controller: App\Controller\CarburantController::update
+
+carburant_archive:
+  path: /carburant/archive/{id}
+  controller: App\Controller\CarburantController::archive
 
 departement:
   path: /departement
@@ -59,6 +77,10 @@ departement_create:
 departement_update:
   path: /departement/update
   controller: App\Controller\DepartementController::update
+  
+departement_archive:
+  path: /departement/archive/{id}
+  controller: App\Controller\DepartementController::archive
 
 directeur_commercial_vehicules:
   path: /directeur-commercial/vehicules #auth
@@ -100,6 +122,11 @@ entretient_update:
   path: /entretient/update
   controller: App\Controller\EntretientController::update
 
+entretient_archive:
+  path: /entretient/archive/{id}
+  controller: App\Controller\EntretientController::archive
+
+
 historique:
   path: /historique
   controller: App\Controller\HistoriqueController::index
@@ -115,6 +142,10 @@ historique_create:
 historique_update:
   path: /historique/update
   controller: App\Controller\HistoriqueController::update
+
+historique_archive:
+  path: /historique/archive/{id}
+  controller: App\Controller\HistoriqueController::archive
 
 vehicule_historique:
   path: /vehicule/historique #auth
@@ -162,3 +193,7 @@ vehicule_create:
 vehicule_update:
   path: /vehicules/update
   controller: App\Controller\VehiculeController::update
+
+vehicule_archive:
+  path: /vehicules/archive/{id}
+  controller: App\Controller\VehiculeController::archive

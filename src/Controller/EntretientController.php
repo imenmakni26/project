@@ -106,7 +106,9 @@ class EntretientController extends AbstractController
         ]);
     }
 
-    #[Route('/entretient/delete/{id}', name: 'entretient_delete', methods: ['POST'])]
+    /**
+     * @Route("/entretient/archive/{id}", name="entretient_archive")
+     */
     public function archive(Entretient $entretient): Response
     {
         $entityManager = $this->entityManager;

@@ -27,7 +27,7 @@ class DepartementController extends AbstractController
     }
 
     /**
-     * @Route("/departement/{id}", name="carburant_show", methods={"GET"})
+     * @Route("/departement/{id}", name="departement_show", methods={"GET"})
      */
     public function show(Departement $departement): Response
     {
@@ -74,6 +74,9 @@ class DepartementController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/departement/archive/{id}", name="departement_archive")
+     */
     public function archive(Departement $departement): Response
     {
         $entityManager = $this->entityManager;

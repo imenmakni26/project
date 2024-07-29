@@ -18,7 +18,7 @@ class BudgetController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/budget', name: 'app_budget')]
+    #[Route('/budget', name: 'budget_index')]
     public function index(): Response
     {
         return $this->render('budget/index.html.twig', [
@@ -26,35 +26,37 @@ class BudgetController extends AbstractController
         ]);
     }
     /**
-     * @Route("/show", name="budget_show", methods={"GET"})
+     * @Route("/budget/{id}", name="budget_show")
      */
     public function show(Budget $budget): Response
     {
+        if (!$budget) {
+            throw $this->createNotFoundException('No budget found for id '.$budget->getId());
+        }
+
         return $this->render('budget/show.html.twig', [
-            'controller_name' => 'BudgetController',
+            'budget' => $budget,
         ]);
     }
+
     /**
-     * @Route("/create", name="budget_create", methods={"POST"})
+     * @Route("/budget/create", name="budget_create")
      */
     public function create(Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
 
-        $budget = new budget();
-        $budget->setId($data['Id'] ?? null);
-        $budget->setMontantAlloue($data['MontantAlloue'] ?? null);
-        $budget->setDepense($data['depense'] ?? null);
-        $budget->setArchive($data['archive'] ?? null);
+        $budget = new Budget();
+        $budget->setMontantAlloue((float) $data['montant_alloue']);
+        $budget->setDepense((float) $data['depense']);
+        $budget->setArchive((bool) $data['archive']);
 
-        $entityManager = $this->entityManager;
-        $entityManager->persist($budget);
-        $entityManager->flush();
+        $this->entityManager->persist($budget);
+        $this->entityManager->flush();
 
         return $this->render('budget/create.html.twig', [
-            'controller_name' => 'BudgetController',
-        ]);
-    }
+            'budget' => $budget,
+        ]);    }
 
     /**
      * @Route("/update", name="budget_update", methods={"PUT"})
@@ -76,6 +78,9 @@ class BudgetController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route(/budget/archive/{id}", name="budget_archive")
+     */
     public function archive(Budget $budget): Response
     {
         $entityManager = $this->entityManager;
@@ -86,4 +91,5 @@ class BudgetController extends AbstractController
 
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
+     
 }

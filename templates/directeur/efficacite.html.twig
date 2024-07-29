@@ -3,4 +3,20 @@
 {% block title %}Hello DirecteurController!
 {% endblock %}
 
-{% block body %}{% endblock %}
+{% block body %}
+
+	<div class="example-wrapper">
+		<h1>Hello
+			{{ controller_name }}! ✅</h1>
+
+		This friendly message is coming from:
+		<ul>
+			<li>Your controller at
+				<code>C:/xampp/htdocs/Parc/src/Controller/DirecteurController.php</code>
+			</li>
+			<li>Your template at
+				<code>C:/xampp/htdocs/Parc/templates/directeur_comercial/index.html.twig</code>
+			</li>
+		</ul>
+	</div>
+{% endblock %}

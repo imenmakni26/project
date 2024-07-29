@@ -19,9 +19,9 @@ class CarburantController extends AbstractController
     }
 
     /**
-     * @Route("/carburant/show", name="carburant_show", methods={"GET"})
+     * @Route("/carburant/show", name="carburant_show")
      */
-    public function show(Carburant $carburant): Response
+    public function show(): Response
     {
         return $this->render('carburant/show.html.twig', [
             'controller_name' => 'carburantController',
@@ -55,21 +55,43 @@ class CarburantController extends AbstractController
      */
     public function update(Request $request, Carburant $carburant): Response
     {
+        // Assurez-vous que les données sont envoyées en JSON
         $data = json_decode($request->getContent(), true);
 
-        $carburant->setnumserie($data['numserie'] ?? $carburant->getnumserie());
-        $carburant->setvaleur($data['valeur'] ?? $carburant->getvaleur());
-        $carburant->setmotDePasse($data['motDePasse'] ?? $carburant->getmotDePasse());
-        $carburant->setArchive($data['archive'] ?? $carburant->isArchive());
+        // Utilisation de json_decode pour récupérer les données
+        $numserie = $data['numserie'] ?? 'default_value';
+        $valeur = $data['valeur'] ?? 'default_value';
+        $motDePasse = $data['motDePasse'] ?? 'default_value';
+        $archive = $data['archive'] ?? false;
 
-        $entityManager = $this->entityManager;
-        $entityManager->flush();
+        // Vérifiez que numserie, valeur et motDePasse sont des chaînes
+        if (is_string($numserie)) {
+            $carburant->setNumserie($numserie);
+        }
 
+        if (is_string($valeur)) {
+            $carburant->setValeur($valeur);
+        }
+
+        if (is_string($motDePasse)) {
+            $carburant->setMotDePasse($motDePasse);
+        }
+
+        // Assurez-vous que $archive est un booléen
+        $carburant->setArchive((bool)$archive);
+
+        // Sauvegarde de l'entité
+        $this->entityManager->flush();
+
+        // Retourne une réponse ou une vue appropriée
         return $this->render('carburant/update.html.twig', [
-            'controller_name' => 'carburantController',
+            'controller_name' => 'CarburantController',
         ]);
     }
 
+    /**
+     * @Route("/departement/archive/{id}", name="carburant_archive")
+     */
     public function archive(Carburant $carburant): Response
     {
         $entityManager = $this->entityManager;

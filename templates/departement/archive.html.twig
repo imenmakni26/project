@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Creation d'historique
+{% block title %}L'archive des departements
 {% endblock %}
 {% block body %}
 	<meta
@@ -224,33 +224,15 @@
 		</div>
 		<main>
 			<div class="container">
-				<h2 class="small-title">Creation d'historique</h2>
+				<h2 class="small-title">Modification du departement
+				</h2>
 				<div class="card mb-5">
 					<div class="card-body">
-						<form class="form" method="POST" action="{{ path('historique_create') }}" enctype="multipart/form-data">
+						<form class="form" method="POST" action="{{ path('departement_create') }}" enctype="multipart/form-data">
 							<div class="mb-3 row">
-								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Date:</label>
+								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Nom:</label>
 								<div class="col-sm-8 col-md-9 col-lg-10">
-									<input type="date" class="form-control date-picker-close" value="Date"/>
-								</div>
-							</div>
-							<div class="mb-3 row">
-								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">
-									Description:</label>
-								<div class="col-sm-8 col-md-9 col-lg-10">
-									<input type="text" class="form-control" value="Description"/>
-								</div>
-							</div>
-							<div class="mb-3 row">
-								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Cout:</label>
-								<div class="col-sm-8 col-md-9 col-lg-10">
-									<input type="text" class="form-control" value="Cout"/>
-								</div>
-							</div>
-							<div class="mb-3 row">
-								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">IdVehicule:</label>
-								<div class="col-sm-8 col-md-9 col-lg-10">
-									<input type="text" class="form-control" value="IdVehicule"/>
+									<input type="text" class="form-control" value="Nom"/>
 								</div>
 							</div>
 
@@ -267,10 +249,11 @@
 
 							<div class="mb-3 row mt-5">
 								<div class="col-sm-8 col-md-9 col-lg-10 ms-auto">
-									<button type="submit" class="btn btn-outline-primary">Ajouter</button>
+									<button type="submit" class="btn btn-outline-primary">Sauvegarder les modifications</button>
 								</div>
 							</div>
 						</form>
+						<a href="{{ path('Departement_index') }}" class="btn btn-outline-primary">Retour à la liste</a>
 					</div>
 				</div>
 			</div>
@@ -291,4 +274,5 @@
 		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/settings.js') }}"></script><!-- Template Base Scripts End --><!-- Page Specific Scripts Start --><script src="{{ asset('Html/acorn-html-medical-assistant/src/js/pages/settings.js') }}"></script>
 		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/common.js') }}"></script>
 		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/scripts.js') }}"></script>
+
 	{% endblock %}
