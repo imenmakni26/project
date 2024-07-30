@@ -277,12 +277,12 @@ class Vehicule
         return $this->dateDerniereVidange;
     }
 
-    public function setDateDerniereVidange(\DateTimeInterface $dateDerniereVidange): static
-    {
-        $this->dateDerniereVidange = $dateDerniereVidange;
+    public function setDateDerniereVidange(?\DateTimeInterface $dateDerniereVidange): static
+{
+    $this->dateDerniereVidange = $dateDerniereVidange;
 
-        return $this;
-    }
+    return $this;
+}
 
     public function getCartePeage(): ?string
     {

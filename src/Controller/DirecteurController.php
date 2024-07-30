@@ -20,6 +20,13 @@ class DirecteurController extends AbstractController
         $this->vehiculeRepository = $vehiculeRepository;
     }
 
+    #[Route('/directeur', name: 'directeur_index')]
+    public function index(): Response
+    {
+        return $this->render('directeur/index.html.twig', [
+            'controller_name' => 'DirecteurController',
+        ]);
+    }
 
     #[Route('/directeur/vehicules', name: 'directeur_vehicules', methods: ['GET'])]
     public function viewAllVehicules(): Response

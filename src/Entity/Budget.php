@@ -17,10 +17,10 @@ class Budget
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?float $MontantAlloue = null;
+    private ?float $MontantAlloue;
 
     #[ORM\Column]
-    private ?float $depense = null;
+    private ?float $depense;
 
     #[ORM\Column]
     private ?bool $archive = null;

@@ -9,7 +9,7 @@ assurance_index:
   controller: App\Controller\AssuranceController::index
 
 assurance_show:
-  path: /assurance/{id}
+  path: /assurance/show/{id}
   controller: App\Controller\AssuranceController::show
   requirements:
     id: \d+
@@ -19,7 +19,7 @@ assurance_create:
   controller: App\Controller\AssuranceController::create
 
 assurance_update:
-  path: /assurance/{id}
+  path: /assurance/update/{id}
   controller: App\Controller\AssuranceController::update  
 
 assurance_archive:
@@ -31,7 +31,7 @@ budget_index:
   controller: App\Controller\BudgetController::index
 
 budget_show:
-  path: /budget/{id}
+  path: /budget/show/{id}
   controller: App\Controller\BudgetController::show 
 
 budget_create:
@@ -39,12 +39,16 @@ budget_create:
     controller: App\Controller\BudgetController::create
     
 budget_update:
-  path: /budget/update
+  path: /budget/update/{id}
   controller: App\Controller\BudgetController::update 
 
 budget_archive:
   path: /budget/archive/{id}
   controller: App\Controller\BudgetController::archive
+
+carburant_index:
+  path: /carburant
+  controller: App\Controller\CarburantController::index
 
 carburant_show:
   path: /carburant/show
@@ -55,8 +59,8 @@ carburant_create:
   controller: App\Controller\CarburantController::create
 
 carburant_update:
-  path: /carburant/update
-  controller: App\Controller\CarburantController::update
+    path: /carburant/update/{id}
+    controller: App\Controller\CarburantController::update
 
 carburant_archive:
   path: /carburant/archive/{id}
@@ -75,7 +79,7 @@ departement_create:
   controller: App\Controller\DepartementController::create
 
 departement_update:
-  path: /departement/update
+  path: /departement/update/{id}
   controller: App\Controller\DepartementController::update
   
 departement_archive:
@@ -93,6 +97,11 @@ directeur_commercial_rapport:
 directeur_commercial_evaluation:
   path: /directeur-commercial/evaluation #auth
   controller: App\Controller\DirecteurCommercialController::efficaciteGestion
+
+directeur_index:
+  path: /directeur
+  controller: App\Controller\DirecteurController::index
+
 
 directeur_vehicules:
   path: /directeur/vehicules
@@ -112,14 +121,14 @@ entretient_index:
 
 entretient_show:
   path: /entretient/show
-  controller: App\Controller\EntretientController::update
+  controller: App\Controller\EntretientController::show
 
 entretient_create:
   path: /entretient/create
-  controller: App\Controller\EntretientController::update
+  controller: App\Controller\EntretientController::create
 
 entretient_update:
-  path: /entretient/update
+  path: /entretient/update/{id}
   controller: App\Controller\EntretientController::update
 
 entretient_archive:
@@ -133,14 +142,14 @@ historique:
 
 historique_show:
   path: /historique/show
-  controller: App\Controller\HistoriqueController::update
+  controller: App\Controller\HistoriqueController::show
 
 historique_create:
   path: /historique/create
-  controller: App\Controller\HistoriqueController::update
+  controller: App\Controller\HistoriqueController::create
 
 historique_update:
-  path: /historique/update
+  path: /historique/update/{id}
   controller: App\Controller\HistoriqueController::update
 
 historique_archive:
@@ -191,7 +200,7 @@ vehicule_create:
   controller: App\Controller\VehiculeController::create
 
 vehicule_update:
-  path: /vehicules/update
+  path: /vehicules/update/{id}
   controller: App\Controller\VehiculeController::update
 
 vehicule_archive:

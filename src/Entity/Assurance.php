@@ -80,11 +80,11 @@ private ?string $numero = null;
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): static
-    {
-        $this->date = $date;
-        return $this;
-    }
+   public function setDate(\DateTimeInterface $date): self
+{
+    $this->date = $date;
+    return $this;
+}
 
     public function isArchive(): ?bool
     {

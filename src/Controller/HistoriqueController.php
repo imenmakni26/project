@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Historique;
+use App\Entity\Vehicule;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +27,7 @@ class HistoriqueController extends AbstractController
         ]);
     }
     /**
-     * @Route("/show", name="historique_show", methods={"GET"})
+     * @Route("/historique/show", name="historique_show", methods={"GET"})
      */
     public function show(Historique $historique): Response
     {
@@ -35,30 +36,41 @@ class HistoriqueController extends AbstractController
         ]);
     }
     /**
-     * @Route("/create", name="historique_create", methods={"POST"})
+     * @Route("/historique/create", name="historique_create")
      */
     public function create(Request $request): Response
-    {
-        $data = json_decode($request->getContent(), true);
+{
+    $data = json_decode($request->getContent(), true);
 
-        $historique = new historique();
-        $historique->setDate($data['date'] ?? null);
-        $historique->setDescription($data['description'] ?? null);
-        $historique->setCout($data['cout'] ?? null);
-        $historique->setVehicule($data['vehicule'] ?? null);
-        $historique->setArchive($data['archive'] ?? null);
+    $historique = new Historique();
 
-        $entityManager = $this->entityManager;
-        $entityManager->persist($historique);
-        $entityManager->flush();
+    $date = isset($data['date']) ? new \DateTime($data['date']) : new \DateTime();
+    $historique->setDate($date);
 
-        return $this->render('historique/create.html.twig', [
-            'controller_name' => 'historiqueController',
-        ]);
-    }
+    $description = isset($data['description']) ? (string) $data['description'] : '';
+    $historique->setDescription($description);
+
+    $cout = isset($data['cout']) ? (float) $data['cout'] : 0.0;
+    $historique->setCout($cout);
+
+    $vehicule = isset($data['vehicule']) ? $this->entityManager->getRepository(Vehicule::class)->find($data['vehicule']) : null;
+    $historique->setVehicule($vehicule);
+
+    $archive = isset($data['archive']) && is_bool($data['archive']) ? $data['archive'] : false;
+    $historique->setArchive($archive);
+
+    $entityManager = $this->entityManager;
+    $entityManager->persist($historique);
+    $entityManager->flush();
+
+    return $this->render('historique/create.html.twig', [
+        'controller_name' => 'HistoriqueController',
+    ]);
+}
+
 
     /**
-     * @Route("/update", name="historique_update", methods={"PUT"})
+     * @Route("/historique/update/{id}", name="historique_update")
      */
     public function update(Request $request, Historique $historique): Response
     {

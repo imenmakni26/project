@@ -1,34 +1,164 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Page d'accueil d'assurance
+{% block title %}Liste d'assurances
 {% endblock %}
 
 {% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
+	<meta name="description" content="Liste d'assurances"/>
+	<!-- Favicon Tags Start -->
+	<!-- [Votre code pour les favicons] -->
+	<!-- Favicon Tags End -->
 
-	<div class="example-wrapper">
-		<h1>Hello
-			{{ controller_name }}! ✅</h1>
+	<!-- Font Tags Start -->
+	<link rel="preconnect" href="https://fonts.gstatic.com"/> <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;700&display=swap" rel="stylesheet"/>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet"/>
+	<link rel="stylesheet" href="{{ asset('Html/acorn-html-medical-assistant/src/font/CS-Interface/style.css') }}"/>
+	<!-- Font Tags End -->
 
-		This friendly message is coming from:
-		<ul>
-			<li>Your controller at
-				<code>C:/project/src/Controller/AssuranceController.php</code>
-			</li>
-			<li>Your template at
-				<code>C:/project/templates/assurance/index.html.twig</code>
-			</li>
-		</ul>
+	<!-- Vendor Styles Start -->
+	<link rel="stylesheet" href="{{ asset('Html/acorn-html-medical-assistant/src/css/vendor/bootstrap.min.css') }}"/> <link rel="stylesheet" href="{{ asset('Html/acorn-html-medical-assistant/src/css/vendor/OverlayScrollbars.min.css') }}"/>
+	<!-- Vendor Styles End -->
+
+	<!-- Template Base Styles Start -->
+	<link rel="stylesheet" href="{{ asset('Html/acorn-html-medical-assistant/src/css/styles.css') }}"/> <link
+	rel="stylesheet" href="{{ asset('Html/acorn-html-medical-assistant/src/css/main.css') }}"/>
+	<!-- Template Base Styles End -->
+
+	<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/loader.js') }}"></script>
+	<div id="root">
+		<div id="nav" class="nav-container d-flex">
+			<div class="nav-content d-flex">
+				<div class="menu-container flex-grow-1">
+					<ul id="menu" class="menu">
+						<li>
+							<a href="vehicule/index.html.twig">
+								<i data-acorn-icon="calendar" class="icon" data-acorn-size="18"></i>
+								<span class="label">Vehicule</span>
+							</a>
+						</li>
+						<li>
+							<a href="utilisateur/index.html.twig">
+								<i data-acorn-icon="form-check" class="icon" data-acorn-size="18"></i>
+								<span class="label">Utilisateur</span>
+							</a>
+						</li>
+						<li>
+							<a href="historique/index.html.twig">
+								<i data-acorn-icon="inbox" class="icon" data-acorn-size="18"></i>
+								<span class="label">Historique</span>
+							</a>
+						</li>
+						<li>
+							<a href="entretient/index.html.twig">
+								<i data-acorn-icon="health" class="icon" data-acorn-size="18"></i>
+								<span class="label">Entretient</span>
+							</a>
+						</li>
+						<li>
+							<a href="departement/index.html.twig">
+								<i data-acorn-icon="messages" class="icon" data-acorn-size="18"></i>
+								<span class="label">Departement</span>
+							</a>
+						</li>
+						<li>
+							<a href="carburant/index.html.twig">
+								<i data-acorn-icon="book-open" class="icon" data-acorn-size="18"></i>
+								<span class="label">Carburant</span>
+							</a>
+						</li>
+						<li>
+							<a href="budget/index.html.twig">
+								<i data-acorn-icon="book" class="icon" data-acorn-size="18"></i>
+								<span class="label">Budget</span>
+							</a>
+						</li>
+						<li>
+							<a href="assurance/index.html.twig">
+								<i data-acorn-icon="gear" class="icon" data-acorn-size="18"></i>
+								<span class="label">Assurance</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div
+					class="mobile-buttons-container">
+					<!-- Menu Button Start -->
+					<a href="#" id="mobileMenuButton" class="menu-button">
+						<i data-acorn-icon="menu"></i>
+					</a>
+					<!-- Menu Button End -->
+				</div>
+				<!-- Mobile Buttons End -->
+			</div>
+			<div class="nav-shadow"></div>
+
+			<!-- Main Menu Start -->
+			<div class="menu-container flex-grow-1">
+				<ul
+					id="menu" class="menu"><!-- [Votre code pour les liens du menu] -->
+				</ul>
+			</div>
+
+		</div>
+		<div class="nav-shadow"></div>
 	</div>
-{% endblock %}
+
+	<main>
+		<div class="container mt-5">
+			<h2 class="small-title">Liste des Assurances</h2>
+			<div class="card mb-5">
+				<div class="card-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Numero</th>
+								<th>Type</th>
+								<th>Agence</th>
+								<th>Date</th>
+								<th>Archive</th>
+								<th>Prix</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							{% if assurance is defined %}
+								{<tr>
+									<td>{{ assurance.id }}</td>
+									<td>{{ assurance.numero }}</td>
+									<td>{{ assurance.type }}</td>
+									<td>{{ assurance.agence }}</td>
+									<td>{{ assurance.date|date('Y-m-d') }}</td>
+									<td>{{ budget.archive ? 'Oui' : 'Non' }}</td>
+									<td>{{ assurance.prix }}</td>
+
+								</tr>}
+							{% else %}
+								<p>Aucune assurance disponible.</p>
+							{% endif %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</main>
+</div>
+
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/jquery-3.5.1.min.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/OverlayScrollbars.min.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/autoComplete.min.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/clamp.min.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/icon/acorn-icons.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/icon/acorn-icons-interface.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/icon/acorn-icons-medical.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/select2.full.min.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/datepicker/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/helpers.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/globals.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/nav.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/search.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/settings.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/pages/settings.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/common.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/scripts.js') }}"></script>{% endblock %}

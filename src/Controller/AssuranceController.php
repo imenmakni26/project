@@ -24,58 +24,61 @@ class AssuranceController extends AbstractController
             'controller_name' => 'AssuranceController',
         ]);
     }
-    /**
-     * @Route("/assurance/{id}", name="assurance_show", requirements={"id"="\d+"})
+    
+     /**
+     * @Route("/assurance/show/{id}", name="assurance_show")
      */
-    public function show(int $id): Response
+    public function show(Assurance $assurance): Response
     {
-        $assurance = $this->entityManager->getRepository(Assurance::class)->find($id);
-
-        if (!$assurance) {
-            throw $this->createNotFoundException('Aucune assurance trouvée pour cet ID');
-        }
-
         return $this->render('assurance/show.html.twig', [
             'assurance' => $assurance,
         ]);
     }
 
     /**
-     * @Route("/assurance", name="assurance_create")
+     * @Route("/assurance/create", name="assurance_create")
      */
-    public function create(Request $request,EntityManagerInterface $entityManager): Response
+    public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
-        if($request->isMethod('POST')){
-            
         $data = json_decode($request->getContent(), true);
-        $numero= $request->get('numero');
-        $type= $request->get('type');
-        $agence= $request->get('agence');
-        $date = $request->get('date');
-        $archive= $request->get('archive');
+
+        $numero = $data['numero'] ?? null;
+        $type = $data['type'] ?? null;
+        $agence = $data['agence'] ?? null;
+        $dateString = $data['date'] ?? null;
+        $archive = $data['archive'] ?? false;
+
+        if ($numero === null || $type === null || $agence === null || $dateString === null) {
+            return $this->render('assurance/create.html.twig', [
+                'controller_name' => 'AssuranceController',
+            ]);
+        }
 
         $assurance = new Assurance();
         $assurance->setNumero($numero);
         $assurance->setType($type);
         $assurance->setAgence($agence);
+
+        $date = \DateTime::createFromFormat('Y-m-d', $dateString);
+        if ($date === false) {
+            return new Response('Date invalide', Response::HTTP_BAD_REQUEST);
+        }
         $assurance->setDate($date);
         $assurance->setArchive($archive);
-        
-        $entityManager = $this->entityManager;
+
         $entityManager->persist($assurance);
         $entityManager->flush();
-        return new Response('Assurance créée avec succès');
 
-        }
         return $this->render('assurance/create.html.twig', [
             'controller_name' => 'AssuranceController',
         ]);
     }
+
     
     
 
     /**
-     * @Route("/assurance/{id}", name="assurance_update", methods={"GET"})
+     * @Route("/assurance/update/{id}", name="assurance_update", methods={"GET"})
      */
     public function update(Request $request, Assurance $assurance): Response
     {

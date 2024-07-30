@@ -18,6 +18,14 @@ class CarburantController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+    #[Route('/carburant', name: 'carburant_index')]
+    public function index(): Response
+    {
+        return $this->render('carburant/index.html.twig', [
+            'controller_name' => 'CarburantController',
+        ]);
+    }
+
     /**
      * @Route("/carburant/show", name="carburant_show")
      */
@@ -36,55 +44,57 @@ class CarburantController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         $carburant = new Carburant();
-        $carburant->setnumserie($data['numserie'] ?? null);
-        $carburant->setvaleur($data['valeur'] ?? null);
-        $carburant->setmotDePasse($data['motDePasse'] ?? null);
-        $carburant->setArchive($data['archive'] ?? null);
 
+        $numserie = $data['numserie'] ?? '';
+        $valeurString = $data['valeur'] ?? '';
+        $motDePasse = $data['motDePasse'] ?? '';
+        $archive = $data['archive'] ?? false;
+
+        $valeurFloat = floatval($valeurString);
+
+        $carburant->setNumserie($numserie);
+        $carburant->setValeur($valeurFloat);
+        $carburant->setMotDePasse($motDePasse);
+        $carburant->setArchive($archive);
+    
         $entityManager = $this->entityManager;
         $entityManager->persist($carburant);
         $entityManager->flush();
 
         return $this->render('carburant/create.html.twig', [
-            'controller_name' => 'carburantController',
+            'controller_name' => 'CarburantController',
         ]);
     }
+    
 
     /**
      * @Route("/carburant/update", name="carburant_update", methods={"PUT"})
+     * @ParamConverter("carburant", class="App\Entity\Carburant")
+
      */
-    public function update(Request $request, Carburant $carburant): Response
+    public function update(Carburant $carburant, Request $request): Response
     {
-        // Assurez-vous que les données sont envoyées en JSON
-        $data = json_decode($request->getContent(), true);
+        // Logique de mise à jour
+        $data = $request->request->all();
 
-        // Utilisation de json_decode pour récupérer les données
-        $numserie = $data['numserie'] ?? 'default_value';
-        $valeur = $data['valeur'] ?? 'default_value';
-        $motDePasse = $data['motDePasse'] ?? 'default_value';
-        $archive = $data['archive'] ?? false;
+        $numserie = $data['numserie'] ?? $carburant->getNumserie();
+        $valeur = $data['valeur'] ?? $carburant->getValeur();
+        $motDePasse = $data['motDePasse'] ?? $carburant->getMotDePasse();
+        $archive = isset($data['archive']) ? (bool)$data['archive'] : $carburant->isArchive();
 
-        // Vérifiez que numserie, valeur et motDePasse sont des chaînes
-        if (is_string($numserie)) {
-            $carburant->setNumserie($numserie);
+        $carburant->setNumserie($numserie);
+        $carburant->setValeur($valeur);
+        $carburant->setMotDePasse($motDePasse);
+        $carburant->setArchive($archive);
+
+        try {
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            return new Response('Erreur lors de la mise à jour : ' . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        if (is_string($valeur)) {
-            $carburant->setValeur($valeur);
-        }
-
-        if (is_string($motDePasse)) {
-            $carburant->setMotDePasse($motDePasse);
-        }
-
-        // Assurez-vous que $archive est un booléen
-        $carburant->setArchive((bool)$archive);
-
-        // Sauvegarde de l'entité
-        $this->entityManager->flush();
-
-        // Retourne une réponse ou une vue appropriée
         return $this->render('carburant/update.html.twig', [
+            'carburant' => $carburant,
             'controller_name' => 'CarburantController',
         ]);
     }

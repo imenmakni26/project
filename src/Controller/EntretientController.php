@@ -44,33 +44,50 @@ class EntretientController extends AbstractController
      * @Route("/entretient/create", name="entretient_create", methods={"POST"})
      */
     public function create(Request $request): Response
-    {
-        $data = json_decode($request->getContent(), true);
+{
+    // Décoder le contenu JSON de la requête
+    $data = json_decode($request->getContent(), true);
 
-        $entretient = new Entretient();
-        $entretient->setDate(new \DateTime($data['date'] ?? 'now')); // Utilisation de la date actuelle si aucune date n'est fournie
-        $entretient->setType($data['type'] ?? null);
-        $entretient->setPrix($data['prix'] ?? null);
-        $entretient->setArchive($data['archive'] ?? false); // Valeur par défaut false
+    // Créer une nouvelle instance de Entretient
+    $entretient = new Entretient();
 
-        // Gestion des véhicules associés
-        if (isset($data['vehicules'])) {
-            foreach ($data['vehicules'] as $vehiculeId) {
-                $vehicule = $this->entityManager->getRepository(Vehicule::class)->find($vehiculeId);
-                if ($vehicule) {
-                    $entretient->addIdVehicule($vehicule);
-                }
+    // Vérifier et définir la date, en utilisant la date actuelle si aucune date n'est fournie
+    $date = isset($data['date']) ? new \DateTime($data['date']) : new \DateTime();
+    $entretient->setDate($date);
+
+    // Vérifier et définir le type, en utilisant une chaîne vide comme valeur par défaut si 'type' est absent ou null
+    $type = isset($data['type']) && is_string($data['type']) ? $data['type'] : '';
+    $entretient->setType($type);
+
+    // Vérifier et définir le prix, en utilisant 0.0 comme valeur par défaut si 'prix' est absent ou null
+    $prix = isset($data['prix']) ? (float) $data['prix'] : 0.0;
+    $entretient->setPrix($prix);
+
+    // Vérifier et définir l'archive, en utilisant false comme valeur par défaut si 'archive' est absent ou null
+    $archive = isset($data['archive']) && is_bool($data['archive']) ? $data['archive'] : false;
+    $entretient->setArchive($archive);
+
+    // Gestion des véhicules associés
+    if (isset($data['vehicules'])) {
+        foreach ($data['vehicules'] as $vehiculeId) {
+            $vehicule = $this->entityManager->getRepository(Vehicule::class)->find($vehiculeId);
+            if ($vehicule) {
+                $entretient->addIdVehicule($vehicule);
             }
         }
-
-        $entityManager = $this->entityManager;
-        $entityManager->persist($entretient);
-        $entityManager->flush();
-
-        return $this->render('entretient/create.html.twig', [
-            'controller_name' => 'entretientController',
-        ]);
     }
+
+    // Persister et flusher l'entité
+    $entityManager = $this->entityManager;
+    $entityManager->persist($entretient);
+    $entityManager->flush();
+
+    // Retourner la réponse
+    return $this->render('entretient/create.html.twig', [
+        'controller_name' => 'EntretientController',
+    ]);
+}
+
 
     #[Route('/entretient/update', name: 'entretient_update', methods: ['PUT'])]
     public function update(Request $request, Entretient $entretient): Response

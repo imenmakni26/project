@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Departement;
+use App\Repository\DepartementRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,10 +14,12 @@ use Symfony\Component\Routing\Attribute\Route;
 class DepartementController extends AbstractController
 {
     #[Route('/departement', name: 'app_departement')]
-    public function index(): Response
+    public function index(DepartementRepository $departementRepository): Response
     {
+        $departements = $departementRepository->findAll();
+
         return $this->render('departement/index.html.twig', [
-            'controller_name' => 'DepartementController',
+            'departements' => $departements, 
         ]);
     }
     private $entityManager;
@@ -27,9 +30,9 @@ class DepartementController extends AbstractController
     }
 
     /**
-     * @Route("/departement/{id}", name="departement_show", methods={"GET"})
+     * @Route("/departement/show", name="departement_show", methods={"GET"})
      */
-    public function show(Departement $departement): Response
+    public function show(): Response
     {
         return $this->render('departement/show.html.twig', [
             'controller_name' => 'DepartementController',
@@ -40,24 +43,35 @@ class DepartementController extends AbstractController
      * @Route("/departement", name="departement_create", methods={"POST"})
      */
     public function create(Request $request): Response
-    {
-        $data = json_decode($request->getContent(), true);
+{
+    // Décoder le contenu JSON de la requête
+    $data = json_decode($request->getContent(), true);
 
-        $departement = new Departement();
-        $departement->setNom($data['nom'] ?? null);
-        $departement->setArchive($data['archive'] ?? null);
+    // Créer une nouvelle instance de Departement
+    $departement = new Departement();
 
-        $entityManager = $this->entityManager;
-        $entityManager->persist($departement);
-        $entityManager->flush();
+    // Vérifier et définir le nom, en utilisant une chaîne vide comme valeur par défaut si 'nom' est absent ou null
+    $nom = isset($data['nom']) && is_string($data['nom']) ? $data['nom'] : '';
+    $departement->setNom($nom);
 
-        return $this->render('departement/create.html.twig', [
-            'controller_name' => 'DepartementController',
-        ]);
-    }
+    // Vérifier et définir l'archive, en utilisant false comme valeur par défaut si 'archive' est absent ou null
+    $archive = isset($data['archive']) && is_bool($data['archive']) ? $data['archive'] : false;
+    $departement->setArchive($archive);
+
+    // Persister et flusher l'entité
+    $entityManager = $this->entityManager;
+    $entityManager->persist($departement);
+    $entityManager->flush();
+
+    // Retourner la réponse
+    return $this->render('departement/create.html.twig', [
+        'controller_name' => 'DepartementController',
+    ]);
+}
+
 
     /**
-     * @Route("/departement/{id}", name="departement_update", methods={"PUT"})
+     * @Route("/departement/update/{id}", name="departement_update", methods={"PUT"})
      */
     public function update(Request $request, Departement $departement): Response
     {

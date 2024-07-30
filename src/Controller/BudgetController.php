@@ -26,7 +26,7 @@ class BudgetController extends AbstractController
         ]);
     }
     /**
-     * @Route("/budget/{id}", name="budget_show")
+     * @Route("/budget/show/{id}", name="budget_show")
      */
     public function show(Budget $budget): Response
     {
@@ -43,23 +43,38 @@ class BudgetController extends AbstractController
      * @Route("/budget/create", name="budget_create")
      */
     public function create(Request $request): Response
-    {
-        $data = json_decode($request->getContent(), true);
+{
+    // Décoder le contenu JSON de la requête
+    $data = json_decode($request->getContent(), true);
+   
+    $budget = new Budget();
 
-        $budget = new Budget();
-        $budget->setMontantAlloue((float) $data['montant_alloue']);
-        $budget->setDepense((float) $data['depense']);
-        $budget->setArchive((bool) $data['archive']);
+    // Vérifier et définir le montant alloué
+    $montantAlloue = isset($data['montant_alloue']) ? (float) $data['montant_alloue'] : 0.0;
+    $budget->setMontantAlloue($montantAlloue);
 
-        $this->entityManager->persist($budget);
-        $this->entityManager->flush();
+    // Vérifier et définir la dépense
+    $depense = isset($data['depense']) ? (float) $data['depense'] : 0.0;
+    $budget->setDepense($depense);
 
-        return $this->render('budget/create.html.twig', [
-            'budget' => $budget,
-        ]);    }
+    // Vérifier et définir l'archive
+    $archive = isset($data['archive']) ? (bool) $data['archive'] : false;
+    $budget->setArchive($archive);
+
+    // Persister et flusher l'entité
+    $this->entityManager->persist($budget);
+    $this->entityManager->flush();
+
+    // Retourner la réponse
+    return $this->render('budget/create.html.twig', [
+        'budget' => $budget,
+    ]);
+}
+
+    
 
     /**
-     * @Route("/update", name="budget_update", methods={"PUT"})
+     * @Route("/budget/update/{id}", name="budget_update", methods={"PUT"})
      */
     public function update(Request $request, Budget $budget): Response
     {
