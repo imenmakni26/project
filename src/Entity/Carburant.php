@@ -13,8 +13,9 @@ class Carburant
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $numserie = null;
+
 
     #[ORM\Column]
     private ?float $valeur = null;

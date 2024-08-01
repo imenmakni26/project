@@ -19,6 +19,16 @@ class ResponsabledeflotteController extends AbstractController
         $this->responsabledeflotterepository = $responsabledeflotterepository;
     }
 
+    #[Route('/ResponsableDeFlotte', name: 'ResponsableDeFlotte_index')]
+    public function index(ResponsabledeflotteRepository $repository): Response
+    {
+        $responsabledeflotte = $repository->findAll();
+
+        return $this->render('responsabledeflotte/index.html.twig', [
+            'responsabledeflotte' => $responsabledeflotte,
+        ]);
+    }
+
     #[Route('/vehicule/historique', name: 'vehicule_historique')]
     public function suivreHistoriqueVehicule(Vehicule $vehicle): Response
     {

@@ -23,6 +23,16 @@ class DirecteurCommercialController extends AbstractController
         $this->logger = $logger;
     }
 
+    #[Route('/directeur-commercial', name: 'directeur_commercial_index')]
+    public function index(DirecteurCommercialRepository $repository): Response
+    {
+        $directeursCommercials = $repository->findAll();
+
+        return $this->render('directeur_commercial/index.html.twig', [
+            'directeursCommercials' => $directeursCommercials,
+        ]);
+    }
+    
     #[Route('/directeur-commercial/vehicules', name: 'directeur_commercial_vehicules', methods: ['GET'])]
     public function viewLimitedVehicules(): Response
     {

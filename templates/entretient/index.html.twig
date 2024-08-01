@@ -121,34 +121,37 @@
 							</tr>
 						</thead>
 						<tbody>
-							{% for entretien in defined %}
-								<tr>
-									<td>{{ entretien.id }}</td>
-									<td>{{ entretien.date|date('d/m/Y') }}</td>
-									<td>{{ entretien.type }}</td>
-									<td>{{ entretien.prix | number_format(2, ',', ' ') }}
-										€</td>
-									<td>
-										{% if entretien.idVehicule|length > 0 %}
-											<ul>
-												{% for vehicule in entretien.idVehicule %}
-													<li>{{ vehicule.matricule }}
-														{% if not loop.last %},
-														{% endif %}
-													</li>
-												{% endfor %}
-											</ul>
-										{% else %}
-											Aucun véhicule
-										{% endif %}
-									</td>
-									<td>{{ entretien.archive ? 'Oui' : 'Non' }}</td>
-								</tr>
+							{% if entretiens is defined and entretiens|length > 0 %}
+								{% for entretien in entretiens %}
+									<tr>
+										<td>{{ entretien.id }}</td>
+										<td>{{ entretien.date|date('d/m/Y') }}</td>
+										<td>{{ entretien.type }}</td>
+										<td>{{ entretien.prix | number_format(2, ',', ' ') }}
+											€</td>
+										<td>
+											{% if entretien.idVehicule|length > 0 %}
+												<ul>
+													{% for vehicule in entretien.idVehicule %}
+														<li>{{ vehicule.matricule }}
+															{% if not loop.last %},
+															{% endif %}
+														</li>
+													{% endfor %}
+												</ul>
+											{% else %}
+												Aucun véhicule
+											{% endif %}
+										</td>
+										<td>{{ entretien.archive ? 'Oui' : 'Non' }}</td>
+									</tr>
+								{% endfor %}
 							{% else %}
 								<tr>
 									<td colspan="6">Aucun entretien trouvé</td>
 								</tr>
-							{% endfor %}
+							{% endif %}
+
 						</tbody>
 					</table>
 				</div>

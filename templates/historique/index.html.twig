@@ -121,21 +121,23 @@
 							</tr>
 						</thead>
 						<tbody>
-							{% for historique in historiques %}
-								<tr>
-									<td>{{ historique.id }}</td>
-									<td>{{ historique.date|date('d/m/Y') }}</td>
-									<td>{{ historique.description }}</td>
-									<td>{{ historique.cout | number_format(2, ',', ' ') }}
-										€</td>
-									<td>{{ historique.vehicule ? historique.vehicule.matricule : 'Aucun' }}</td>
-									<td>{{ historique.archive ? 'Oui' : 'Non' }}</td>
-								</tr>
+							{% if historiques is defined and historiques|length > 0 %}
+								{% for historique in historiques %}
+									<tr>
+										<td>{{ historique.id }}</td>
+										<td>{{ historique.date|date('d/m/Y') }}</td>
+										<td>{{ historique.description }}</td>
+										<td>{{ historique.cout | number_format(2, ',', ' ') }}
+											€</td>
+										<td>{{ historique.vehicule ? historique.vehicule.matricule : 'Aucun' }}</td>
+										<td>{{ historique.archive ? 'Oui' : 'Non' }}</td>
+									</tr>
+								{% endfor %}
 							{% else %}
 								<tr>
 									<td colspan="6">Aucun historique trouvé</td>
 								</tr>
-							{% endfor %}
+							{% endif %}
 						</tbody>
 					</table>
 				</div>

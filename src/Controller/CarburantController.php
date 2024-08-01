@@ -18,10 +18,10 @@ class CarburantController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/carburant', name: 'carburant_index')]
+    #[Route('/carburant', name:'carburant_index')]
     public function index(): Response
     {
-        return $this->render('carburant/index.html.twig', [
+        return $this->render('carburant/index.html.twig',[
             'controller_name' => 'CarburantController',
         ]);
     }
@@ -41,21 +41,34 @@ class CarburantController extends AbstractController
      */
     public function create(Request $request): Response
     {
-        $data = json_decode($request->getContent(), true);
+        //$data = json_decode($request->getContent(), true);
 
         $carburant = new Carburant();
 
-        $numserie = $data['numserie'] ?? '';
-        $valeurString = $data['valeur'] ?? '';
-        $motDePasse = $data['motDePasse'] ?? '';
-        $archive = $data['archive'] ?? false;
+        //$numserie = $data['numserie'] ?? '';
+        $valeurString = $request->get('valeur');
+        $motDePasse = $request->get('motDePasse');
+        $archive = $request->get('archive');
 
-        $valeurFloat = floatval($valeurString);
+        if ($request->get('numserie') !== null) {
 
-        $carburant->setNumserie($numserie);
-        $carburant->setValeur($valeurFloat);
-        $carburant->setMotDePasse($motDePasse);
-        $carburant->setArchive($archive);
+        $carburant->setNumserie($request->get('numserie'));
+        }
+
+        if ($valeurString !== null) {
+
+        $carburant->setValeur($valeurString);
+        }
+
+        if ($valeurString !== null) {
+
+            $carburant->setMotDePasse($motDePasse);
+        }
+
+        if ($valeurString !== null) {
+
+            $carburant->setArchive($archive);
+        }
     
         $entityManager = $this->entityManager;
         $entityManager->persist($carburant);

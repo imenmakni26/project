@@ -2,71 +2,32 @@
 
 {% block title %}Creation d'un carburant
 {% endblock %}
+
 {% block body %}
-	<meta
-	name="description" content="Medical Assistant"/>
+	<meta name="description" content="Creation d'un carburant"/>
 	<!-- Favicon Tags Start -->
-	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="img/favicon/apple-touch-icon-57x57.png"/>
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png"/>
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png"/>
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/favicon/apple-touch-icon-144x144.png"/>
-	<link rel="apple-touch-icon-precomposed" sizes="60x60" href="img/favicon/apple-touch-icon-60x60.png"/>
-	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="img/favicon/apple-touch-icon-120x120.png"/>
-	<link rel="apple-touch-icon-precomposed" sizes="76x76" href="img/favicon/apple-touch-icon-76x76.png"/>
-	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="img/favicon/apple-touch-icon-152x152.png"/>
-	<link rel="icon" type="image/png" href="img/favicon/favicon-196x196.png" sizes="196x196"/>
-	<link rel="icon" type="image/png" href="img/favicon/favicon-96x96.png" sizes="96x96"/>
-	<link rel="icon" type="image/png" href="img/favicon/favicon-32x32.png" sizes="32x32"/>
-	<link rel="icon" type="image/png" href="img/favicon/favicon-16x16.png" sizes="16x16"/>
-	<link rel="icon" type="image/png" href="img/favicon/favicon-128.png" sizes="128x128"/>
-	<meta name="application-name" content="&nbsp;"/>
-	<meta name="msapplication-TileColor" content="#FFFFFF"/>
-	<meta name="msapplication-TileImage" content="img/favicon/mstile-144x144.png"/>
-	<meta name="msapplication-square70x70logo" content="img/favicon/mstile-70x70.png"/>
-	<meta name="msapplication-square150x150logo" content="img/favicon/mstile-150x150.png"/>
-	<meta name="msapplication-wide310x150logo" content="img/favicon/mstile-310x150.png"/>
-	<meta name="msapplication-square310x310logo" content="img/favicon/mstile-310x310.png"/>
+	<!-- [Votre code pour les favicons] -->
 	<!-- Favicon Tags End -->
+
 	<!-- Font Tags Start -->
 	<link rel="preconnect" href="https://fonts.gstatic.com"/> <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;700&display=swap" rel="stylesheet"/>
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet"/>
 	<link rel="stylesheet" href="{{ asset('Html/acorn-html-medical-assistant/src/font/CS-Interface/style.css') }}"/>
 	<!-- Font Tags End -->
+
 	<!-- Vendor Styles Start -->
 	<link rel="stylesheet" href="{{ asset('Html/acorn-html-medical-assistant/src/css/vendor/bootstrap.min.css') }}"/> <link rel="stylesheet" href="{{ asset('Html/acorn-html-medical-assistant/src/css/vendor/OverlayScrollbars.min.css') }}"/>
-
 	<!-- Vendor Styles End -->
+
 	<!-- Template Base Styles Start -->
-	<link
-	rel="stylesheet" href="{{ asset('Html/acorn-html-medical-assistant/src/css/styles.css') }}"/> <!-- Template Base Styles End -->
+	<link rel="stylesheet" href="{{ asset('Html/acorn-html-medical-assistant/src/css/styles.css') }}"/> <link
+	rel="stylesheet" href="{{ asset('Html/acorn-html-medical-assistant/src/css/main.css') }}"/>
+	<!-- Template Base Styles End -->
 
-	<link rel="stylesheet" href="{{ asset('Html/acorn-html-medical-assistant/src/css/main.css') }}"/>
 	<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/loader.js') }}"></script>
-
 	<div id="root">
 		<div id="nav" class="nav-container d-flex">
-			<div
-				class="nav-content d-flex">
-				<!-- Logo Start -->
-				<div class="logo position-relative">
-					<a href="Dashboards.Patient.html">
-						<!-- Logo can be added directly -->
-						<!-- <img src="img/logo/logo-white.svg" alt="logo" /> -->
-
-						<!-- Or added via css to provide different ones for different color themes --><div class="img"> </div>
-					</a>
-				</div>
-				<!-- Logo End -->
-
-				<!-- User Menu Start -->
-				<div class="user-container d-flex">
-					<a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<img class="profile" alt="profile" src="img/profile/profile-1.webp"/>
-						<div class="name">Administrateur</div>
-					</a>
-
-				</div>
-				<!-- User Menu End -->
+			<div class="nav-content d-flex">
 				<div class="menu-container flex-grow-1">
 					<ul id="menu" class="menu">
 						<li>
@@ -130,69 +91,82 @@
 				<!-- Mobile Buttons End -->
 			</div>
 			<div class="nav-shadow"></div>
+
+			<!-- Main Menu Start -->
+			<div class="menu-container flex-grow-1">
+				<ul
+					id="menu" class="menu"><!-- [Votre code pour les liens du menu] -->
+				</ul>
+			</div>
+
 		</div>
-		<main>
-			<div class="container">
-				<h2 class="small-title">Creation de carburant</h2>
-				<div class="card mb-5">
-					<div class="card-body">
-						<form class="form" method="POST" action="{{ path('carburant_create') }}" enctype="multipart/form-data">
-							<div class="mb-3 row">
-								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Numero de serie:</label>
-								<div class="col-sm-8 col-md-9 col-lg-10">
-									<input type="text" class="form-control" value="Numero de serie" name="numserie"/>
-								</div>
-							</div>
-							<div class="mb-3 row">
-								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">
-									Valeur:</label>
-								<div class="col-sm-8 col-md-9 col-lg-10">
-									<input type="text" class="form-control" value="Valeur" name="valeur"/>
-								</div>
-							</div>
-							<div class="mb-3 row">
-								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Mot de passe:</label>
-								<div class="col-sm-8 col-md-9 col-lg-10">
-									<input type="text" class="form-control" value="Mot de passe" name="motDePasse"/>
-								</div>
-							</div>
+		<div class="nav-shadow"></div>
+	</div>
 
-							<div class="mb-3 row">
-								<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Archive:</label>
-								<div class="col-sm-8 col-md-9 col-lg-10">
-									<select class="select-single-no-search" data-width="100%" id="Archive" name="archive">
-										<option label="&nbsp;"></option>
-										<option value="1">True</option>
-										<option value="2">False</option>
-									</select>
-								</div>
+	<main>
+		<div class="container mt-5">
+			<h2 class="small-title">Creation d'un carburant</h2>
+			<div class="card mb-5">
+				<div class="card-body">
+					<form class="form" method="POST" action="{{ path('carburant_create') }}" enctype="multipart/form-data">
+						<div class="mb-3 row">
+							<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Numero de serie:</label>
+							<div class="col-sm-8 col-md-9 col-lg-10">
+								<input type="text" class="form-control" value="Numero de serie" name="numserie"/>
 							</div>
+						</div>
+						<div class="mb-3 row">
+							<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">
+								Valeur:</label>
+							<div class="col-sm-8 col-md-9 col-lg-10">
+								<input type="text" class="form-control" value="Valeur" name="valeur"/>
+							</div>
+						</div>
+						<div class="mb-3 row">
+							<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Mot de passe:</label>
+							<div class="col-sm-8 col-md-9 col-lg-10">
+								<input type="text" class="form-control" value="Mot de passe" name="motDePasse"/>
+							</div>
+						</div>
 
-							<div class="mb-3 row mt-5">
-								<div class="col-sm-8 col-md-9 col-lg-10 ms-auto">
-									<button type="submit" class="btn btn-outline-primary">Ajouter</button>
-								</div>
+						<div class="mb-3 row">
+							<label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Archive:</label>
+							<div class="col-sm-8 col-md-9 col-lg-10">
+								<select class="select-single-no-search" data-width="100%" id="Archive" name="archive">
+									<option label="&nbsp;"></option>
+									<option value="1">True</option>
+									<option value="2">False</option>
+								</select>
 							</div>
-						</form>
-					</div>
+						</div>
+
+						<div class="mb-3 row mt-5">
+							<div class="col-sm-8 col-md-9 col-lg-10 ms-auto">
+								<button type="submit" class="btn btn-outline-primary">Ajouter</button>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
-		</main>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/jquery-3.5.1.min.js') }}"></script>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/bootstrap.bundle.min.js') }}"></script>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/OverlayScrollbars.min.js') }}"></script>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/autoComplete.min.js') }}"></script>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/clamp.min.js') }}"></script>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/icon/acorn-icons.js') }}"></script>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/icon/acorn-icons-interface.js') }}"></script>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/icon/acorn-icons-medical.js') }}"></script>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/select2.full.min.js') }}"></script>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/datepicker/bootstrap-datepicker.min.js') }}"></script><!-- Vendor Scripts End --><!-- Template Base Scripts Start --><script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/helpers.js') }}"></script>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/globals.js') }}"></script>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/nav.js') }}"></script>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/search.js') }}"></script>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/settings.js') }}"></script><!-- Template Base Scripts End --><!-- Page Specific Scripts Start --><script src="{{ asset('Html/acorn-html-medical-assistant/src/js/pages/settings.js') }}"></script>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/common.js') }}"></script>
-		<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/scripts.js') }}"></script>
+		</div>
+	</main>
+</div>
 
-	{% endblock %}
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/jquery-3.5.1.min.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/OverlayScrollbars.min.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/autoComplete.min.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/clamp.min.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/icon/acorn-icons.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/icon/acorn-icons-interface.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/icon/acorn-icons-medical.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/select2.full.min.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/vendor/datepicker/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/helpers.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/globals.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/nav.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/search.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/base/settings.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/pages/settings.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/common.js') }}"></script>
+<script src="{{ asset('Html/acorn-html-medical-assistant/src/js/scripts.js') }}"></script>{% endblock %}

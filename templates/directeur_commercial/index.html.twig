@@ -121,32 +121,35 @@
 							</tr>
 						</thead>
 						<tbody>
-							{% for directeurCommercial in defined %}
-								<tr>
-									<td>{{ directeurCommercial.id }}</td>
-									<td>{{ directeurCommercial.nom }}</td>
-									<td>{{ directeurCommercial.nombreLimiteVehicules }}</td>
-									<td>{{ directeurCommercial.departement ? directeurCommercial.departement.nom : 'Aucun' }}</td>
-									<td>
-										{% if directeurCommercial.idVehicule|length > 0 %}
-											<ul>
-												{% for vehicule in directeurCommercial.idVehicule %}
-													<li>{{ vehicule.matricule }}
-														{% if not loop.last %},
-														{% endif %}
-													</li>
-												{% endfor %}
-											</ul>
-										{% else %}
-											Aucun véhicule
-										{% endif %}
-									</td>
-								</tr>
+							{% if directeursCommercials is not empty %}
+								{% for directeurCommercial in directeursCommercials %}
+									<tr>
+										<td>{{ directeurCommercial.id }}</td>
+										<td>{{ directeurCommercial.nom }}</td>
+										<td>{{ directeurCommercial.nombreLimiteVehicules }}</td>
+										<td>{{ directeurCommercial.departement ? directeurCommercial.departement.nom : 'Aucun' }}</td>
+										<td>
+											{% if directeurCommercial.idVehicule|length > 0 %}
+												<ul>
+													{% for vehicule in directeurCommercial.idVehicule %}
+														<li>{{ vehicule.matricule }}
+															{% if not loop.last %},
+															{% endif %}
+														</li>
+													{% endfor %}
+												</ul>
+											{% else %}
+												Aucun véhicule
+											{% endif %}
+										</td>
+									</tr>
+								{% endfor %}
 							{% else %}
 								<tr>
 									<td colspan="5">Aucun directeur commercial trouvé</td>
 								</tr>
-							{% endfor %}
+							{% endif %}
+
 						</tbody>
 					</table>
 				</div>

@@ -130,7 +130,7 @@
 									<td>{{ departement.archive ? 'Oui' : 'Non' }}</td>
 									{% if departement.idVehicule|length > 0 %}
 										<ul>
-											{% for departement in defined %}
+											{% for departement is defined %}
 												<li>{{ vehicule.idVehicule }}
 													{% if not loop.last %},
 													{% endif %}

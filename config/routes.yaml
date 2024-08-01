@@ -86,6 +86,10 @@ departement_archive:
   path: /departement/archive/{id}
   controller: App\Controller\DepartementController::archive
 
+directeur_commercial_index:
+  path: /directeur-commercial
+  controller: App\Controller\DirecteurCommercialController::index
+
 directeur_commercial_vehicules:
   path: /directeur-commercial/vehicules #auth
   controller: App\Controller\DirecteurCommercialController::viewLimitedVehicules
@@ -168,6 +172,10 @@ vehicule_budget:
 #path: /security/login
 #controller: App\Controller\SecurityController::login
 
+ResponsableDeFlotte_index:
+  path: /ResponsableDeFlotte
+  controller: App\Controller\ResponsabledeflotteController::index
+
 utilisateur_index:
   path: /utilisateur
   controller: App\Controller\UtilisateurController::index
@@ -186,6 +194,8 @@ utilisateur_show:
 utilisateur_edit:
   path: /utilisateur/edit
   controller: App\Controller\UtilisateurController::edit
+  
+
 
 vehicule_index:
   path: /vehicules

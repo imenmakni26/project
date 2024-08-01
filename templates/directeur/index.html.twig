@@ -120,41 +120,44 @@
 							</tr>
 						</thead>
 						<tbody>
-							{% for directeur in defined %}
-								<tr>
-									<td>{{ directeur.id }}</td>
-									<td>{{ directeur.nom }}</td>
-									<td>
-										{% if directeur.departement|length > 0 %}
-											<ul>
-												{% for dep in directeur.departement %}
-													<li>{{ dep.nom }}</li>
-												{% endfor %}
-											</ul>
-										{% else %}
-											Aucun département
-										{% endif %}
-									</td>
-									<td>
-										{% if directeur.idVehicule|length > 0 %}
-											<ul>
-												{% for vehicule in directeur.idVehicule %}
-													<li>{{ vehicule.matricule }}
-														{% if not loop.last %},
-														{% endif %}
-													</li>
-												{% endfor %}
-											</ul>
-										{% else %}
-											Aucun véhicule
-										{% endif %}
-									</td>
-								</tr>
+							{% if directeurs is defined and directeurs|length > 0 %}
+								{% for directeur in directeurs %}
+									<tr>
+										<td>{{ directeur.id }}</td>
+										<td>{{ directeur.nom }}</td>
+										<td>
+											{% if directeur.departement|length > 0 %}
+												<ul>
+													{% for dep in directeur.departement %}
+														<li>{{ dep.nom }}</li>
+													{% endfor %}
+												</ul>
+											{% else %}
+												Aucun département
+											{% endif %}
+										</td>
+										<td>
+											{% if directeur.idVehicule|length > 0 %}
+												<ul>
+													{% for vehicule in directeur.idVehicule %}
+														<li>{{ vehicule.matricule }}
+															{% if not loop.last %},
+															{% endif %}
+														</li>
+													{% endfor %}
+												</ul>
+											{% else %}
+												Aucun véhicule
+											{% endif %}
+										</td>
+									</tr>
+								{% endfor %}
 							{% else %}
 								<tr>
 									<td colspan="4">Aucun directeur trouvé</td>
 								</tr>
-							{% endfor %}
+							{% endif %}
+
 						</tbody>
 
 					</table>

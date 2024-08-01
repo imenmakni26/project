@@ -22,6 +22,7 @@ class DirecteurComercialController extends AbstractController
         $this->directeurCommercialRepository = $directeurCommercialRepository;
         $this->logger = $logger;
     }
+    
 
     #[Route('/directeur-commercial/vehicules', name: 'directeur_commercial_vehicules', methods: ['GET'])]
     public function viewLimitedVehicules(): Response
